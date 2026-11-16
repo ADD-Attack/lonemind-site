@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The app · LoneMind</title>
+<meta name="description" content="What LoneMind does today and what is planned: on-device models, a visible thinking trace, your own keys, and free routing. Android, private alpha.">
+<meta name="theme-color" content="#06080c">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LoneMind">
+<meta property="og:title" content="The app · LoneMind">
+<meta property="og:description" content="What LoneMind does today and what is planned: on-device models, a visible thinking trace, your own keys, and free routing. Android, private alpha.">
+<meta property="og:image" content="https://lonemind.ai/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/site.css">
+<script src="js/config.js"></script>
+</head>
+<body data-scene="home">
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-fallback" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<header>
+  <nav class="top" aria-label="Main">
+    <a class="mark" href="index.html"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="#5a6b80" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#ffb54a"/></svg><b>LoneMind</b></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="navlist">Menu</button>
+    <ul class="nav" id="navlist"><li><a href="index.html">Home</a></li><li><a href="app.html" aria-current=page>The app</a></li><li><a href="school.html">School</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="faq.html">FAQ</a></li></ul>
+  </nav>
+</header>
+<main id="main">
+
+<section class="wrap hero short">
+  <p class="eyebrow">The app</p>
+  <h1>An agent that lives where you do.</h1>
+  <p class="lede">LoneMind is an Android app. It runs an AI model on your phone and works as your agent from there.</p>
+  <div class="status"><span class="tag">Alpha</span><div><strong>Not on Google Play yet.</strong> LoneMind is in private alpha on Android. There is no public download today.</div></div>
+</section>
+
+<section class="sec"><div class="wrap">
+  <div class="sec-head"><span class="kicker">In the alpha today</span><h2>What it does now.</h2></div>
+  <div class="grid g3">
+    <div class="card"><span class="kicker">Local models</span><h3>Thinks on the device.</h3><p>Download a model into the app and run it on the phone. In local mode your chats and data stay on the device.</p></div>
+    <div class="card"><span class="kicker">Fit check</span><h3>Knows what your phone can hold.</h3><p>Each model shows whether it fits your phone's memory before you download it.</p></div>
+    <div class="card"><span class="kicker">Thinking trace</span><h3>Shows its work.</h3><p>You see the reasoning steps under each answer as they happen.</p></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap split">
+  <div class="sec-head">
+    <span class="kicker">Planned first run</span>
+    <h2>One question decides the setup.</h2>
+    <p>The first launch will ask how you want LoneMind to run, then set its defaults to match. You can change it later in Settings.</p>
+  </div>
+  <ol class="steps">
+    <li><strong>Private.</strong> Local models only. Your data stays on the phone.</li>
+    <li><strong>More power.</strong> Adds cloud models when a task needs them.</li>
+    <li><strong>All of it.</strong> The strongest models, routed per task.</li>
+  </ol>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Planned</span>
+    <h2>Photo in. Checked answer out.</h2>
+    <p>Show LoneMind a puzzle and its rules. It reads the rules, models the puzzle, solves it, and checks the answer against the rules. It shouldn't explain the rules back to you or go looking for a solution online.</p>
+  </div>
+  <div class="demo" id="puzzle">
+  <div class="demo-label"><span class="tag soft">Illustration</span><span>A tiny solver running in your browser. It shows the loop. It is not LoneMind.</span></div>
+  <div class="demo-cols">
+    <div>
+      <div class="board" role="group" aria-label="4 by 4 puzzle grid"></div>
+      <p class="rules">Type 1–4 in any square to change the puzzle.</p>
+    </div>
+    <div>
+      <ul class="log" aria-live="polite"></ul>
+      <div class="btns">
+        <button class="btn primary" data-act="solve" type="button">Solve and check</button>
+        <button class="btn" data-act="new" type="button">New puzzle</button>
+        <button class="btn" data-act="clear" type="button">Clear answer</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div></section>
+
+<section class="sec"><div class="wrap split">
+  <div class="sec-head"><span class="kicker">Honest status</span><h2>Where it is today.</h2></div>
+  <ul class="ticks">
+    <li>Android only. Builds go to a small private alpha.</li>
+    <li>Not on Google Play. No public download yet.</li>
+    <li>The name LoneMind arrives with the next alpha build.</li>
+    <li>Photo-to-solution and the premium pack are planned, not shipped.</li>
+  </ul>
+</div></section>
+
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div><b style="color:var(--text)">LoneMind</b> · <span data-domain=""></span> · a personal AI agent for Android, in private alpha.</div>
+    <ul><li><a href="index.html">Home</a></li><li><a href="app.html">The app</a></li><li><a href="school.html">School</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="faq.html">FAQ</a></li></ul>
+  </div>
+</footer>
+<script type="module" src="js/bg.js"></script>
+<script src="js/puzzle.js"></script>
+</body>
+</html>
