@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LoneMind Free · a chat model in your browser</title>
+<meta name="description" content="A real open-weight chat model that runs on your own GPU, inside this page. No server does the thinking.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#06080c">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/site.css">
+<link rel="stylesheet" href="free.css">
+<script src="../js/config.js"></script>
+</head>
+<body data-scene="home">
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-fallback" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<header>
+  <nav class="top" aria-label="Main">
+    <a class="mark" href="../index.html"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="#5a6b80" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#ffb54a"/></svg><b>LoneMind<sup style="font-size:.5em;font-weight:500;margin-left:1px">™</sup></b></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="navlist">Menu</button>
+    <ul class="nav" id="navlist"><li><a href="../index.html">Home</a></li><li><a href="../app.html">The app</a></li><li><a href="../pricing.html">Pricing</a></li><li><a href="../faq.html">FAQ</a></li></ul>
+  </nav>
+</header>
+<main id="main">
+<section class="wrap hero short">
+  <p class="eyebrow">Free tier · preview</p>
+  <h1>A real chat model, on your own GPU.</h1>
+  <p class="lede">Qwen2.5 0.5B Instruct runs inside this page through WebGPU. The weights are downloaded once (about 280 MB) and cached. After that, every answer is computed on your machine. No server does the thinking.</p>
+</section>
+<section class="sec"><div class="wrap">
+<div class="fchat" id="fchat">
+  <div class="fbar">
+    <span class="fstat" id="fstat" role="status" aria-live="polite">Model not loaded.</span>
+    <button type="button" class="btn" id="fload">Load the model (≈280 MB)</button>
+  </div>
+  <progress id="fprog" max="1" value="0" hidden aria-label="Download progress"></progress>
+  <div class="fnogpu" id="fnogpu" role="alert" hidden>
+    <h2>This browser can't run the model.</h2>
+    <p id="fnogpu-why">WebGPU is not available here.</p>
+    <p>The free tier needs WebGPU: a current desktop Chrome or Edge (version 113 or later) on a machine with a graphics card. On Safari or Firefox, turn WebGPU on in the browser settings or switch to Chrome. Nothing was downloaded.</p>
+  </div>
+  <ol class="flog" id="flog" aria-live="polite" aria-label="Conversation"></ol>
+  <form class="fask" id="fask">
+    <label class="sr" for="fin">Your message</label>
+    <textarea id="fin" rows="2" placeholder="Load the model, then ask anything…" disabled></textarea>
+    <div class="fbtns">
+      <button type="submit" class="btn" id="fsend" disabled>Send</button>
+      <button type="button" class="btn ghost" id="fstop" hidden>Stop</button>
+      <button type="button" class="btn ghost" id="fnew" disabled>New chat</button>
+    </div>
+  </form>
+  <p class="fperf" id="fperf"></p>
+</div>
+<div class="flic">
+  <h2>Credits and licences</h2>
+  <p>In-browser inference: <a href="https://github.com/mlc-ai/web-llm" rel="noopener">WebLLM</a> by the MLC team (<a href="https://mlc.ai" rel="noopener">mlc.ai</a>), Apache License 2.0. Its code is served from this site; <a href="vendor/WEB-LLM-LICENSE.txt">licence text</a>.</p>
+  <p>Model: <a href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct" rel="noopener">Qwen2.5-0.5B-Instruct</a> by the Qwen team, Alibaba Cloud, Apache License 2.0. Quantised MLC build <code id="fmid">Qwen2.5-0.5B-Instruct-q4f16_1-MLC</code>, downloaded from <a href="https://huggingface.co/mlc-ai" rel="noopener">mlc-ai on Hugging Face</a>.</p>
+  <p class="small">A small model makes mistakes. Don't rely on it for facts, health, money or law.</p>
+</div>
+</div></section>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div><b style="color:var(--text)">LoneMind™</b> · <span data-domain=""></span> · free tier preview.</div>
+  </div>
+</footer>
+<script type="module" src="free.js"></script>
+<script type="module" src="../js/bg.js"></script>
+</body>
+</html>

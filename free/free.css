@@ -1,0 +1,24 @@
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fchat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.fbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.fstat{color:var(--muted);font-size:15px;min-width:0;overflow-wrap:anywhere}
+#fprog{width:100%;height:8px;accent-color:var(--lamp)}
+.fnogpu{border:1px solid var(--bad);border-radius:10px;padding:14px 16px;background:rgba(255,138,122,.07)}
+.fnogpu h2{margin:0 0 6px;font-size:20px}.fnogpu p{margin:6px 0;color:var(--muted);font-size:16px}
+.flog{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;max-height:56vh;overflow-y:auto}
+.flog:empty{display:none}
+.flog li{padding:10px 14px;border-radius:12px;max-width:85%;white-space:pre-wrap;overflow-wrap:anywhere;font-size:16px;line-height:1.5}
+.flog .u{align-self:flex-end;background:#1b2430;border:1px solid var(--line)}
+.flog .a{align-self:flex-start;background:rgba(255,181,74,.08);border:1px solid rgba(255,181,74,.25)}
+.flog .a.err{border-color:var(--bad)}
+.fask{display:flex;flex-direction:column;gap:10px}
+.fask textarea{width:100%;resize:vertical;min-height:56px;font:inherit;font-size:16px;color:var(--text);background:var(--ink-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fask textarea:disabled{opacity:.6}
+.fbtns{display:flex;gap:10px;flex-wrap:wrap}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.fperf{margin:0;color:var(--dim);font-family:var(--mono);font-size:13px;min-height:1em}
+.flic{margin-top:28px;color:var(--muted);font-size:15px}
+.flic h2{font-size:18px;color:var(--text);margin:0 0 8px}
+.flic code{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+@media (max-width:600px){.fchat{padding:14px}.flog li{max-width:95%}}
