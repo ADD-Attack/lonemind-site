@@ -64,18 +64,21 @@ fetch('data.json').then(r=>r.json()).then(D=>{
  /* ---- playground ---- */
  const K=['1.0','0.3','0.1'];let k='0.1',n=64,s=0,on={deq:1,cnn:0,cnn8:0},p=D.side['0.1_64'].stop[0],playing=false;
  const settled=()=>D.side['0.1_64'].stop[s];
- seg('sk',['1.0 short','0.3','0.1 long'],i=>{k=K[i];draw()},2);
- seg('sn',['64 · trained','256 · unseen'],i=>{n=i?256:64;draw()});
+ const skB=seg('sk',['1.0 short','0.3','0.1 long'],i=>{k=K[i];draw()},2);
+ const snB=seg('sn',['64 · trained','256 · unseen'],i=>{n=i?256:64;draw()});
  seg('ss',['1','2','3'],i=>{s=i;p=settled();stop();draw()});
  const ms=['deq','cnn','cnn8'];
  seg('sm',ms.map(m=>`<i style="background:${COL[m]}"></i>${NAME[m]}`),i=>{on[ms[i]]^=1;draw()},[0],true);
  const ps=$('pass'),pb=$('play');
  ps.oninput=()=>{p=+ps.value;stop();draw()};
- function stop(){playing=false;pb.textContent='▶ Play'}
+ function stop(){playing=false;pb.textContent=p>=320?'↻ Replay':'▶ Play'}
  /* Play is user-started, so it animates even under reduced motion; only autoplay is skipped. */
- pb.onclick=()=>{if(playing){stop();return}if(p>=320||p===settled())p=0;playing=true;pb.textContent='⏸ Pause';draw()};
+ pb.onclick=()=>{if(playing){stop();return}
+  /* Frames exist only for κ 0.1 · 64 cells: Play jumps back there instead of locking. */
+  if(k!=='0.1'||n!==64){k='0.1';n=64;skB[2].click();snB[0].click();p=0}
+  if(p>=320||p===settled())p=0;playing=true;pb.textContent='⏸ Pause';draw()};
  function draw(){const d=D.side[k+'_'+n];const fr=k==='0.1'&&n===64&&d.frames;
-  ps.disabled=pb.disabled=!fr;if(fr)ps.value=p;$('pk').textContent=fr?p:'final';
+  ps.disabled=!fr;pb.disabled=false;if(fr)ps.value=p;$('pk').textContent=fr?p:'final';
   $('passnote').textContent=fr?`The solver's own stop rule fired at pass ${d.stop[s]} for this sample.`:'Pass-by-pass frames were exported for κ = 0.1 at 64 cells. Here StasDEQ shows its settled answer.';
   const ex=d.exact[s],vm=Math.max(...ex)*1.15,ser=[{v:ex,col:COL.ex,dash:[5,4],w:1.5}];
   ms.forEach(m=>{if(!on[m])return;const v=m==='deq'&&fr?d.frames[s][p]:d[m][s];ser.push({v,col:COL[m],fill:1,w:m==='deq'?2.6:2})});
