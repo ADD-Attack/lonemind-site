@@ -71,7 +71,7 @@ async function ask(text) {
   try {
     const chunks = await engine.chat.completions.create({
       messages: [{ role: 'system', content: SYS }, ...history],
-      stream: true, stream_options: { include_usage: true }, temperature: 0.2, max_tokens: 256,
+      stream: true, stream_options: { include_usage: true }, temperature: 0, top_p: 1, max_tokens: 256, // greedy: same prompt, same answer
     });
     for await (const c of chunks) {
       const d = c.choices[0]?.delta?.content || '';
