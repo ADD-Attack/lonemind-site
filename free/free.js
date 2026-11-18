@@ -1,17 +1,17 @@
-// LoneMind Free: WebLLM (Apache-2.0, vendored) running Qwen2.5-0.5B-Instruct on the user's GPU.
+// LoneMind Free: WebLLM (Apache-2.0, vendored) running Qwen2.5-1.5B-Instruct on the user's GPU.
 // Only the weights come from the network (Hugging Face, once, then Cache Storage). Inference is local.
 const $ = (id) => document.getElementById(id);
 const st = $('fstat'), prog = $('fprog'), log = $('flog'), fin = $('fin'), send = $('fsend'),
   stop = $('fstop'), fresh = $('fnew'), load = $('fload'), perf = $('fperf');
-const SYS = 'You are a helpful, accurate assistant running privately on the visitor\'s own device. Do exactly what the user asks. Reply directly in one or two short sentences, with no preamble.';
+const SYS = 'You are a helpful, accurate assistant running privately on the visitor\'s own device. Do exactly what the user asks. Reply directly in one or two short sentences, with no preamble. Never output placeholder text in square brackets; write the real, finished text.';
 let engine = null, history = [], busy = false, gpu = null;
 
 function variant(f16) {
   const q = f16 ? 'q4f16_1' : 'q4f32_1';
   return {
-    model: `https://huggingface.co/mlc-ai/Qwen2.5-0.5B-Instruct-${q}-MLC`,
-    model_id: `Qwen2.5-0.5B-Instruct-${q}-MLC`,
-    model_lib: new URL(`vendor/Qwen2-0.5B-Instruct-${q}_cs1k-webgpu.wasm`, import.meta.url).href,
+    model: `https://huggingface.co/mlc-ai/Qwen2.5-1.5B-Instruct-${q}-MLC`,
+    model_id: `Qwen2.5-1.5B-Instruct-${q}-MLC`,
+    model_lib: new URL(`vendor/Qwen2-1.5B-Instruct-${q}_cs1k-webgpu.wasm`, import.meta.url).href,
     low_resource_required: true,
     overrides: { context_window_size: 4096 },
   };
