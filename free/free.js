@@ -3,7 +3,7 @@
 const $ = (id) => document.getElementById(id);
 const st = $('fstat'), prog = $('fprog'), log = $('flog'), fin = $('fin'), send = $('fsend'),
   stop = $('fstop'), fresh = $('fnew'), load = $('fload'), perf = $('fperf');
-const SYS = 'You are a helpful, friendly assistant. Answer briefly and plainly.';
+const SYS = 'You are a helpful, accurate assistant running privately on the visitor\'s own device. Do exactly what the user asks. Reply directly in one or two short sentences, with no preamble.';
 let engine = null, history = [], busy = false, gpu = null;
 
 function variant(f16) {
@@ -67,7 +67,7 @@ async function ask(text) {
   bubble('u', text);
   const out = bubble('a', '…');
   setBusy(true);
-  const t0 = performance.now(); let tFirst = 0, reply = '', usage = null;
+  const t0 = performance.now(); let tFirst = 0, reply = '', usage = null, chunkN = 0;
   try {
     const chunks = await engine.chat.completions.create({
       messages: [{ role: 'system', content: SYS }, ...history],
@@ -75,14 +75,14 @@ async function ask(text) {
     });
     for await (const c of chunks) {
       const d = c.choices[0]?.delta?.content || '';
-      if (d) { if (!tFirst) tFirst = performance.now(); reply += d; out.textContent = reply; log.scrollTop = log.scrollHeight; }
+      if (d) { chunkN++; if (!tFirst) tFirst = performance.now(); reply += d; out.textContent = reply; log.scrollTop = log.scrollHeight; }
       if (c.usage) usage = c.usage;
     }
   } catch (e) { out.classList.add('err'); reply = reply || ('Error: ' + (e && e.message || e)); out.textContent = reply; }
   const tEnd = performance.now();
   history.push({ role: 'assistant', content: reply });
   const n = usage ? usage.completion_tokens : 0;
-  const r = { text: reply, ttftMs: tFirst ? Math.round(tFirst - t0) : null, totalMs: Math.round(tEnd - t0), tokens: n,
+  const r = { text: reply, ttftMs: tFirst ? Math.round(tFirst - t0) : null, totalMs: Math.round(tEnd - t0), tokens: n, chunks: chunkN, streamMs: tFirst ? Math.round(tEnd - tFirst) : 0,
     tps: tFirst && n > 1 ? +((n - 1) / ((tEnd - tFirst) / 1000)).toFixed(2) : null,
     decodeTps: usage?.extra?.decode_tokens_per_s ? +usage.extra.decode_tokens_per_s.toFixed(2) : null };
   perf.textContent = `first token ${r.ttftMs} ms · ${r.tokens} tokens · ${r.tps ?? '–'} tokens/s`;
