@@ -1,4 +1,4 @@
-// LoneMind Free: WebLLM (Apache-2.0, vendored) running Qwen2.5-1.5B-Instruct on the user's GPU.
+// LoneMind Free: WebLLM (Apache-2.0, vendored) running Llama-3.2-3B-Instruct on the user's GPU.
 // Only the weights come from the network (Hugging Face, once, then Cache Storage). Inference is local.
 const $ = (id) => document.getElementById(id);
 const st = $('fstat'), prog = $('fprog'), log = $('flog'), fin = $('fin'), send = $('fsend'),
@@ -9,9 +9,9 @@ let engine = null, history = [], busy = false, gpu = null;
 function variant(f16) {
   const q = f16 ? 'q4f16_1' : 'q4f32_1';
   return {
-    model: `https://huggingface.co/mlc-ai/Qwen2.5-1.5B-Instruct-${q}-MLC`,
-    model_id: `Qwen2.5-1.5B-Instruct-${q}-MLC`,
-    model_lib: new URL(`vendor/Qwen2-1.5B-Instruct-${q}_cs1k-webgpu.wasm`, import.meta.url).href,
+    model: `https://huggingface.co/mlc-ai/Llama-3.2-3B-Instruct-${q}-MLC`,
+    model_id: `Llama-3.2-3B-Instruct-${q}-MLC`,
+    model_lib: new URL(`vendor/Llama-3.2-3B-Instruct-${q}_cs1k-webgpu.wasm`, import.meta.url).href,
     low_resource_required: true,
     overrides: { context_window_size: 4096 },
   };
