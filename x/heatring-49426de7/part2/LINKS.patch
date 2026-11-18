@@ -1,0 +1,20 @@
+# Part 1 -> part 2 links (apply from x/heatring-49426de7/: patch -p1 < part2/LINKS.patch).
+# Part 2 -> part 1 links already exist in part2/index.html (hero "← Part 1" and footer "Part 1").
+--- a/index.html	2026-11-18 10:35:11.723718868 -0600
++++ b/index.html	2026-11-18 10:35:11.763361810 -0600
+@@ -28,6 +28,7 @@
+   <h1>Heat has to travel.</h1>
+   <p class="lede">A tiny certified network passes heat around a ring until the answer settles. Play with the real models below.</p>
+   <p class="small">Data from Einstein's StasDEQ runs: every ring on this page is real output from his saved checkpoints, next to the exact answer.</p>
++  <p class="small"><a href="part2/">Part 2: testing the limits below →</a></p>
+ </section>
+ 
+ <section class="sec"><div class="wrap">
+@@ -141,6 +142,7 @@
+         <li>On the short-range ring (κ = 1.0) the 8× plain net is as good or better (0.0016 / 0.0014 vs 0.0021 / 0.0025).</li>
+         <li>Per-sample numbers on this page come from seed 1 only; the report's tables are 3-seed means.</li>
+       </ul>
++      <p class="small"><a href="part2/">Part 2 tests these limits →</a></p>
+     </div>
+   </div>
+ </div></section>

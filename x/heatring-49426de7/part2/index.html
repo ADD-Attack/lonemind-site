@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The heat ring, part 2 · StasDEQ · LoneMind</title>
+<meta name="theme-color" content="#06080c">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="../ring.css">
+<link rel="stylesheet" href="part2.css">
+</head>
+<body data-build="heatring2-r1">
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-fallback" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<header>
+  <nav class="top" aria-label="Main">
+    <a class="mark" href="/"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="#5a6b80" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#ffb54a"/></svg><b>LoneMind<sup style="font-size:.5em;font-weight:500;margin-left:1px">™</sup></b></a>
+    <span class="tag soft">Research demo · unlisted</span>
+  </nav>
+</header>
+<main id="main">
+
+
+<section class="wrap hero short">
+  <p class="eyebrow">StasDEQ · the heat ring · part 2</p>
+  <h1>Testing the limits we named.</h1>
+  <p class="lede">Part 1 ended with four honest limits. Part 2 tests each one. Here is the short answer to each, win or lose.</p>
+  <ol class="p2-answers">
+    <li><a href="#l-2d"><b>Beyond 1-D rings?</b></a> <span data-slot="2d.answer" class="ph">Awaiting Einstein's results.</span></li>
+    <li><a href="#l-fno"><b>Against an FNO and a classical solver?</b></a> <span data-slot="fno.answer" class="ph">Awaiting Einstein's results.</span></li>
+    <li><a href="#l-unk"><b>Unknown physics, where no exact solver applies?</b></a> <span data-slot="unknown.answer" class="ph">Awaiting Einstein's results.</span></li>
+    <li><a href="#l-par"><b>Prefix parity?</b></a> <span data-slot="parity.answer" class="ph">Awaiting Einstein's results.</span></li>
+  </ol>
+  <p class="small"><a href="../">← Part 1: the heat ring</a></p>
+</section>
+
+<section class="sec" id="l-2d"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Limit 1 · "1-D toy rings only"</span>
+    <h2>Beyond the 1-D ring.</h2>
+    <p data-slot="2d.claim" class="ph">Claim: awaiting Einstein's results.</p>
+  </div>
+  <div class="demo p2-demo">
+    <div class="p2-fig"><canvas id="fig-2d" role="img" aria-label="2-D torus: relative error per model by test grid"></canvas><p class="hr-cap" id="cap-2d">Figure slot · awaiting results</p></div>
+    <div>
+      <div class="hr-row"><span class="hr-lab">Model</span><div class="seg" id="seg-2d" data-arms="2d"></div></div>
+      <div class="hr-row"><span class="hr-lab">Test <b id="k-2d">–</b></span>
+        <div class="hr-pass"><button class="btn" id="play-2d" type="button">▶ Play</button><input type="range" id="r-2d" min="0" max="60" value="0" aria-label="Test point"></div></div>
+    </div>
+    <div class="tw"><table id="t-2d"></table></div>
+  </div>
+  <p class="small" data-slot="2d.source">Source: awaiting Einstein's results folder.</p>
+</div></section>
+
+<section class="sec" id="l-fno"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Limit 2 · "no comparison with an FNO or a classical solver"</span>
+    <h2>Head to head.</h2>
+    <p data-slot="fno.claim" class="ph">Claim: awaiting Einstein's results.</p>
+  </div>
+  <div class="demo p2-demo">
+    <div class="p2-fig"><canvas id="fig-fno" role="img" aria-label="Head to head: relative error per model by task and ring size"></canvas><p class="hr-cap" id="cap-fno">Figure slot · awaiting results</p></div>
+    <div>
+      <div class="hr-row"><span class="hr-lab">Models</span><div class="seg" id="seg-fno" data-arms="fno"></div></div>
+      <div class="hr-row"><span class="hr-lab">Test <b id="k-fno">–</b></span>
+        <div class="hr-pass"><button class="btn" id="play-fno" type="button">▶ Play</button><input type="range" id="r-fno" min="0" max="3" value="0" aria-label="Ring size step"></div></div>
+    </div>
+    <div class="tw"><table id="t-fno"></table></div>
+  </div>
+  <p class="small" data-slot="fno.source">Source: awaiting Einstein's results folder.</p>
+</div></section>
+
+<section class="sec" id="l-unk"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Limit 3 · "the use case is learned operators with unknown physics, not replacing FFT"</span>
+    <h2>When nobody knows the equation.</h2>
+    <p data-slot="unknown.claim" class="ph">Claim: awaiting Einstein's results.</p>
+  </div>
+  <div class="demo p2-demo">
+    <div class="p2-fig"><canvas id="fig-unk" role="img" aria-label="Unknown physics: relative error per model by ring size"></canvas><p class="hr-cap" id="cap-unk">Figure slot · awaiting results</p></div>
+    <div>
+      <div class="hr-row"><span class="hr-lab">Models</span><div class="seg" id="seg-unk" data-arms="unknown"></div></div>
+      <div class="hr-row"><span class="hr-lab">Ring size <b id="k-unk">–</b></span>
+        <div class="hr-pass"><button class="btn" id="play-unk" type="button">▶ Play</button><input type="range" id="r-unk" min="0" max="4" value="0" aria-label="Ring size step"></div></div>
+    </div>
+    <div class="tw"><table id="t-unk"></table></div>
+  </div>
+  <p class="small" data-slot="unknown.source">Source: awaiting Einstein's results folder.</p>
+</div></section>
+
+<section class="sec" id="l-par"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Limit 4 · "Prefix parity failed for every arm, StasDEQ included"</span>
+    <h2>Prefix parity, again.</h2>
+    <p data-slot="parity.claim" class="ph">Claim: awaiting Einstein's results.</p>
+  </div>
+  <div class="demo p2-demo">
+    <div class="p2-fig"><canvas id="fig-par" role="img" aria-label="Prefix parity: exact accuracy per model by length"></canvas><p class="hr-cap" id="cap-par">Figure slot · awaiting results</p></div>
+    <div>
+      <div class="hr-row"><span class="hr-lab">Models</span><div class="seg" id="seg-par" data-arms="parity"></div></div>
+      <div class="hr-row"><span class="hr-lab">Sequence length <b id="k-par">–</b></span>
+        <div class="hr-pass"><button class="btn" id="play-par" type="button">▶ Play</button><input type="range" id="r-par" min="0" max="5" value="0" aria-label="Sequence length step"></div></div>
+    </div>
+    <div class="tw"><table id="t-par"></table></div>
+  </div>
+  <p class="small" data-slot="parity.source">Source: awaiting Einstein's results folder.</p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sec-head"><span class="kicker">Limits of part 2</span><h2>What this still doesn't show.</h2></div>
+  <ul class="small hr-list" id="limits"><li class="ph">Awaiting Einstein's results.</li></ul>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sec-head"><span class="kicker">Sources</span><h2>Every figure, traced.</h2>
+  <p>Results folder: <code data-slot="meta.folder">awaiting Einstein's results</code></p></div>
+  <details class="hr-det" open><summary>Figure → file</summary><div class="tw"><table id="srctab"></table></div></details>
+</div></section>
+
+</main>
+<footer class="foot"><div class="wrap">
+  <div><b style="color:var(--text)">LoneMind™</b> · research demo · data from Einstein's StasDEQ runs.</div>
+  <ul><li><a href="../">Part 1</a></li><li><a href="/">Home</a></li></ul>
+</div></footer>
+<script src="part2.js?v=r1"></script>
+</body>
+</html>

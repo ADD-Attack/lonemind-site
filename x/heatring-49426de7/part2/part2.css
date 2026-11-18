@@ -1,0 +1,14 @@
+.p2-banner{margin:84px auto 0;max-width:1100px;width:calc(100% - 32px);padding:10px 16px;border:1px dashed var(--lamp);border-radius:10px;color:var(--lamp);font-family:var(--mono);font-size:14px;background:rgba(255,181,74,.07)}
+.p2-banner+.hero{padding-top:28px}
+.p2-answers{padding-left:1.2em;margin:18px 0;max-width:760px}
+.p2-answers li{margin:8px 0;color:#cbd2dc}
+.p2-answers a{color:var(--text);text-decoration:none}
+.ph{color:var(--muted);font-style:italic}
+.p2-demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.p2-demo>*{min-width:0}
+.p2-fig canvas{width:100%;aspect-ratio:4/3;display:block;border:1px dashed var(--line);border-radius:10px}
+.p2-dummy{font-family:var(--mono);font-size:12px;color:var(--lamp);opacity:.8;margin:0 0 10px}
+code{overflow-wrap:anywhere}
+#srctab td{white-space:normal;text-align:left}
+@media (max-width:900px){.p2-demo{grid-template-columns:1fr}}
+.p2-demo>.tw{grid-column:1/-1}
