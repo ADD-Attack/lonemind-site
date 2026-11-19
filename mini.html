@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tiny models · test bench</title>
-<meta name="description" content="LoneMind Mini runs in your browser. Ask it a short question; nothing leaves your device.">
+<meta name="description" content="Five small models run in your browser. Ask one a short question; nothing leaves your device.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#06080c">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LoneMind">
 <meta property="og:title" content="Tiny models · test bench">
-<meta property="og:description" content="LoneMind Mini runs in your browser. Ask it a short question; nothing leaves your device.">
+<meta property="og:description" content="Five small models run in your browser. Ask one a short question; nothing leaves your device.">
 <meta property="og:image" content="https://lonemind.ai/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -30,51 +30,38 @@
   </nav>
 </header>
 <main id="main">
-<section class="wrap hero short">
+<section class="wrap hero short bench-hero">
   <p class="eyebrow">Test bench</p>
   <h1>Ask a tiny model.</h1>
-  <p class="lede">Pick a model and ask it something. Each one is small enough to run right here in your browser, and your question never leaves this page.</p>
+  <p class="lede">Pick one of five models and ask it something. Each runs right here in your browser, and your question never leaves this page.</p>
 </section>
-<section class="sec"><div class="wrap" style="max-width:720px">
-<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
-  <label for="model" style="color:#9aa7b6;font-size:14px">Model</label>
-  <select id="model" style="padding:10px 12px;border-radius:10px;border:1px solid #2a3442;background:#0b0f15;color:#eef2f7;font:inherit"></select>
-  <span id="minfo" style="color:#9aa7b6;font-size:13px"></span>
-</div>
-<form id="ask" style="display:flex;gap:10px;flex-wrap:wrap" autocomplete="off">
+<section class="sec bench-sec"><div class="wrap bench">
+<div class="pane-work">
+<p class="curline">Asking <b id="curname">TINY 2.1</b> · <a href="#models">change model</a></p>
+<form id="ask" class="askf" autocomplete="off">
   <label for="q" class="skip">Your question</label>
-  <input id="q" maxlength="72" placeholder="e.g. roman numeral for 3?" style="flex:1 1 260px;min-width:0;padding:14px 16px;border-radius:12px;border:1px solid #2a3442;background:#0b0f15;color:#eef2f7;font:inherit;font-size:17px">
+  <input id="q" maxlength="72" placeholder="e.g. roman numeral for 3?">
   <button id="go" class="btn primary" disabled>Loading…</button>
 </form>
-<p style="color:#9aa7b6;font-size:14px;margin:10px 0 0">One short question, one short answer: facts, simple math, definitions. No chat, no memory. These are test models, so they will get things wrong.</p>
-<div id="out" aria-live="polite" style="margin-top:22px"></div>
-<p id="tryline" style="color:#9aa7b6;font-size:14px;margin-top:18px">Try: <a href="#" class="ex">who came up with the steam engine?</a> · <a href="#" class="ex">what is 7 times 8?</a> · <a href="#" class="ex">which planet is closest to the sun?</a></p>
-<p style="color:#6b7a8c;font-size:12px;margin-top:28px;line-height:1.6">TINY 2.1 is by WollyMonjac (<a href="https://github.com/WollyMonjac/Tiny-2.1">github.com/WollyMonjac/Tiny-2.1</a>), MIT License, Copyright (c) 2026 WollyMonjac (<a href="models/tiny21/LICENSE.txt">licence</a>). It contains information from mledoze/countries, made available under the ODbL 1.0, and from Periodic-Table-JSON (CC BY-SA 3.0) (<a href="models/tiny21/DATA_LICENSES.md">data licences</a>). The model file is shipped unmodified; this page runs it with a JavaScript port of its C program.</p>
+<p class="note">The small models take one short question and give one short answer: facts, simple math, definitions. No chat, no memory. They are test models, so they will get things wrong.</p>
+<p id="tryline" class="note">Try: <a href="#" class="ex">who came up with the steam engine?</a> · <a href="#" class="ex">what is 7 times 8?</a> · <a href="#" class="ex">which planet is closest to the sun?</a></p>
+<div id="out" aria-live="polite"></div>
+<noscript><p class="note">The test bench needs JavaScript: the models run in your browser.</p></noscript>
+</div>
+<div class="pane-rail">
+<fieldset class="models" id="models"><legend>Model</legend></fieldset>
+<p id="minfo" class="minfo"></p>
+<p class="note">The name “LoneMindMini” is provisional and may change.</p>
+</div>
+<div class="pane-lic">
+<h2 class="lich">Models and licences</h2>
+<div id="lics" class="lics"></div>
+</div>
 </div></section>
 <script src="js/mini.js"></script>
 <script src="js/tiny21.js"></script>
-<script>window.BENCH_MODELS=[
- {id:'tiny21',name:'TINY 2.1',info:'by WollyMonjac · 367K parameters · 382 KB',file:'models/tiny21/TINY.BIN',rt:()=>window.Tiny21},
- {id:'mini',name:'LoneMind Mini',info:'1.2M parameters · 335 KB',file:'mini.bin',rt:()=>window.LoneMindMini}];</script>
-<script>
-(async()=>{const go=document.getElementById('go'),q=document.getElementById('q'),out=document.getElementById('out');
-const MODELS=window.BENCH_MODELS||[{id:'mini',name:'LoneMind Mini',info:'1.2M parameters · 335 KB',file:'mini.bin',rt:()=>window.LoneMindMini}];
-const sel=document.getElementById('model'),info=document.getElementById('minfo');MODELS.forEach(m=>sel.add(new Option(m.name,m.id)));
-const P=new URLSearchParams(location.search);if(P.get('model')&&MODELS.some(m=>m.id===P.get('model')))sel.value=P.get('model');
-let M,RT,cur;const cache={};
-async function pick(){const m=MODELS.find(x=>x.id===sel.value);cur=m;info.textContent=m.info;go.disabled=true;go.textContent='Loading…';
- try{if(!cache[m.id]){const r=await fetch(m.file);if(!r.ok)throw 0;cache[m.id]=m.rt().load(await r.arrayBuffer());}M=cache[m.id];RT=m.rt();go.disabled=false;go.textContent='Ask';}catch(e){go.textContent='Could not load';}}
-sel.addEventListener('change',pick);await pick();
-{const p=P.get('q');if(p&&M){q.value=p;setTimeout(()=>ask(p),0);}}
-function ask(t){if(!t.trim())return;go.disabled=true;go.textContent='Thinking…';setTimeout(()=>{const t0=performance.now(),a=RT.answer(M,t),ms=Math.round(performance.now()-t0);
-const card=document.createElement('div');card.style.cssText='padding:16px 18px;border:1px solid #2a3442;border-radius:14px;background:rgba(11,15,21,.85);margin-bottom:12px';
-const qq=document.createElement('div');qq.style.cssText='color:#9aa7b6;font-size:14px';qq.textContent='You: '+t+'  ·  '+cur.name;
-const aa=document.createElement('div');aa.style.cssText='color:#eef2f7;font-size:19px;margin-top:6px';aa.textContent=a||'(no answer)';
-const mm=document.createElement('div');mm.style.cssText='color:#6b7a8c;font-size:12px;margin-top:8px';mm.textContent='Answered on this device in '+ms+' ms';
-card.append(qq,aa,mm);out.prepend(card);go.disabled=false;go.textContent='Ask';},20);}
-document.getElementById('ask').addEventListener('submit',e=>{e.preventDefault();ask(q.value);});
-document.querySelectorAll('.ex').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();q.value=a.textContent;ask(a.textContent);}));})();
-</script>
+<script src="js/models.js"></script>
+<script src="js/bench.js"></script>
 </main>
 <footer class="foot">
   <div class="wrap">
