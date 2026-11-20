@@ -60,7 +60,7 @@
 <li><strong>Classical gravity solvers</strong> (Jacobi and Gauss–Seidel for the Poisson equation). The usual "residual looks small" stopping rule often delivers several times less accuracy than requested. A certified stop delivers what it promises, every time in testing.</li>
 <li class="with-fig"><div class="txt"><strong>Black-hole photon rings.</strong> The textbook "each ring is about 1/23 of the last" approximation becomes an explicit inequality for the non-spinning case, with rigorous error terms.</div>
 <figure class="fig" id="fig-rings" aria-labelledby="fr-cap">
-<svg viewBox="0 0 560 300" role="img" aria-label="Schematic: nested rings close in on a limiting circle; magnifying the boxed region 23 times shows the same picture again, each ring about 1/23 of the last.">
+<svg viewBox="0 0 560 300" role="img" aria-label="Schematic: nested rings close in on a limiting circle; magnifying the boxed region 23 times shows nearly the same picture again, each ring about 1/23 of the last.">
   <g fill="none">
     <circle cx="150" cy="150" r="74" fill="#05070a" stroke="#7d8898" stroke-width="1.1" stroke-dasharray="3 5"/>
     <circle cx="150" cy="150" r="128" stroke="#9fc3e6" stroke-width="2.4"/>
@@ -75,7 +75,7 @@
   </g>
   <text x="522" y="58" text-anchor="end" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="16" fill="#ffb54a">×23</text>
 </svg>
-<figcaption id="fr-cap"><span class="fn">Fig. 2</span> "Each ring is about 1/23 of the last": magnify the box 23 times and the same picture returns.</figcaption>
+<figcaption id="fr-cap"><span class="fn">Fig. 2</span> "Each ring is about 1/23 of the last": magnify the box 23 times and nearly the same picture returns.</figcaption>
 </figure></li>
 <li><strong>A correction to a standard expansion.</strong> The 2002 strong-deflection expansion for black-hole lensing (Bozza) states a remainder of order ε. Internal analysis indicates it is actually of order ε·log(1/ε), and numerics support the extra log factor down to very small ε. The limiting ratio is unaffected.</li>
 <li><strong>The near-1 trap.</strong> When q sits extremely close to 1 (say 1 − 10⁻⁹), the computed step in double precision becomes exactly zero while the iterate is still measurably far from the fixed point. A naive certificate would then report zero error, which is false. Any certificate has to carry an explicit arithmetic-floor term, a point that matters for every AI system that iterates to equilibrium.</li>
