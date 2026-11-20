@@ -34,7 +34,7 @@
   <p class="kicker">LoneMind.ai research · the toy version</p>
   <h1>Whoa.<br><span>Everything wants to sit still.</span></h1>
   <p class="big">Lots of AI and physics math does one thing, over and over, until the answer stops moving.</p>
-  <p class="big">This page is about knowing, <em>for sure</em>, when it has stopped.</p>
+  <p class="big">This page is about knowing, <em>for sure</em>, how far it still has to go.</p>
   <p class="scrollhint" aria-hidden="true">toys below ↓</p>
 </section>
 
@@ -67,9 +67,9 @@
 
   <h3 class="sub">The research adds three upgrades.</h3>
   <ul class="trio">
-    <li><b>Robot-checked.</b> The key lemmas are proved in Lean, and its kernel checks every step, using only the standard axioms. It never gets bored, and it never lets anything slide.</li>
+    <li><b>Machine-checked.</b> The key lemmas are proved in Lean, and its kernel checks every step, using only the standard axioms. It never gets bored, and it never lets anything slide.</li>
     <li><b>Can't beat it.</b> Each guarantee comes with a "rest witness": a proof of where no better guarantee is possible. Part of the inspiration: recent modular-bootstrap work, which pairs a bound with an optimality proof.</li>
-    <li><b>An honest "nope."</b> Sometimes a guarantee <em>cannot</em> exist, and formal proofs say exactly when: volume-preserving dynamics (flip the toy to "No friction"), two competing rest states (one marble, two bowls), or a step ratio drifting to 1. Weaker backup guarantees cover those cases.</li>
+    <li><b>An honest "nope."</b> Sometimes a guarantee <em>cannot</em> exist, and formal proofs pin down when: volume-preserving dynamics (flip the toy to "No friction"), two competing rest states (one marble, two bowls), or a step ratio drifting to 1. Weaker backup guarantees cover those cases.</li>
   </ul>
 </section>
 
@@ -80,7 +80,7 @@
   <div class="cols">
     <div class="copy">
       <p>Deep equilibrium networks usually get one guarantee for the whole model. Internal testing suggests it is very conservative.</p>
-      <p>Like saying your keys are "somewhere on this planet." <span class="joke">joke</span></p>
+      <p>Like saying your keys are "somewhere in this building." <span class="joke">joke</span></p>
       <p>Check each answer on its own instead, and the guarantee gets roughly <b class="hot">40×</b> tighter. Zero failures against high-precision checks.</p>
     </div>
     <figure class="toy" id="toy-squeeze">
@@ -98,7 +98,7 @@
     </figure>
   </div>
   <div class="card">
-    <p><b>Meanwhile, in gravity math.</b> Classic gravity solvers (Jacobi and Gauss–Seidel, for the Poisson equation) usually stop when the leftover error "looks small."</p>
+    <p><b>Meanwhile, in gravity math.</b> Classic gravity solvers (Jacobi and Gauss–Seidel, for the Poisson equation) usually stop when the residual (how badly the current answer misses the equation) "looks small."</p>
     <p>Plot twist: that rule often delivers several times less accuracy than requested. A certified stop delivers what it promises, every time in testing.</p>
   </div>
 </section>
@@ -125,7 +125,7 @@
   </div>
   <div class="card">
     <p><b>Plot twist number two.</b> A 2002 formula for black-hole lensing (Bozza's strong-deflection expansion) says its leftover error is of order ε.</p>
-    <p>Internal analysis indicates it is actually of order ε·log(1/ε). If that holds up, a sneaky little log has been hiding in plain sight since 2002. Numerics support the extra log factor down to very small ε. The limiting ratio is unaffected.</p>
+    <p>Internal analysis indicates it is actually of order ε·log(1/ε). If that holds up, a sneaky little log belongs in a formula from 2002. Numerics support the extra log factor down to very small ε. The limiting ratio is unaffected.</p>
   </div>
 </section>
 
