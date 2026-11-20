@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Whoa: things come to rest. Stasimetry, the toy version · LoneMind.ai</title>
+<meta name="description" content="Marbles in bowls, rings inside rings, time running backwards, and a calculator that rounds to zero near 1. LoneMind.ai's Stasimetry research, with toys.">
+<meta name="theme-color" content="#05060a">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LoneMind">
+<meta property="og:title" content="Whoa: things come to rest">
+<meta property="og:description" content="Stasimetry, the toy version: certify a loop that repeats until it stops changing.">
+<link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../css/site.css">
+<link rel="stylesheet" href="whoa.css">
+</head>
+<body class="whoa">
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-fallback" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+
+<header>
+  <nav class="top" aria-label="Main">
+    <a class="mark" href="../../../index.html"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="#5a6b80" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#ffb54a"/></svg><b>LoneMind<sup style="font-size:.5em;font-weight:500;margin-left:1px">™</sup></b></a>
+    <button class="calm" id="calm" type="button" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="lbl">Calm mode</span></button>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero wrap">
+  <p class="kicker">LoneMind.ai research · the toy version</p>
+  <h1>Whoa.<br><span>Everything wants to sit still.</span></h1>
+  <p class="big">Lots of AI and physics math does one thing, over and over, until the answer stops moving.</p>
+  <p class="big">This page is about knowing, <em>for sure</em>, when it has stopped.</p>
+  <p class="scrollhint" aria-hidden="true">toys below ↓</p>
+</section>
+
+<!-- 1. MARBLE -->
+<section class="act wrap" id="marble-act">
+  <p class="num">01</p>
+  <h2>Roll a marble into a bowl.</h2>
+  <div class="cols">
+    <div class="copy">
+      <p>Take a step. Take another. Each one a little smaller. Then: stillness.</p>
+      <p>A light simulation works like that. So does an equation solver. So does a certain kind of neural network (deep equilibrium models).</p>
+      <p>The big question: how far is the marble from the bottom <em>right now</em>? Not a guess. A guarantee.</p>
+      <p>The research has a name: <b class="name">Stasimetry</b>. "The measurement of coming to rest."</p>
+      <p class="aside">Yes, someone named the act of sitting still. Respect.</p>
+    </div>
+    <figure class="toy" id="toy-marble">
+      <canvas id="marble" role="img" aria-label="A bowl seen from above. A marble spirals toward the bottom. Around it, a dashed bubble shows the guarantee; the bottom is always inside it, and the bubble shrinks every pass."></canvas>
+      <div class="ctl">
+        <button class="btn primary" id="m-fling" type="button">Fling it</button>
+        <div class="seg" role="group" aria-label="Bowl type">
+          <button type="button" class="on" id="m-mode-bowl" aria-pressed="true">Bowl</button>
+          <button type="button" id="m-mode-ice" aria-pressed="false">No friction</button>
+        </div>
+        <label class="slide"><span>q</span><input id="m-q" type="range" min="0.4" max="0.9" step="0.01" value="0.72" aria-label="q, the shrink factor per pass (less than 1)"><output id="m-qv">0.72</output></label>
+      </div>
+      <p class="readout" id="m-read" aria-live="polite">Drag the marble anywhere. Let go.</p>
+      <figcaption><b>Toy 1.</b> Drag the marble and let go. Each pass shrinks its distance to the bottom by at least a factor q, which is less than 1. The dashed bubble is q/(1−q) times the last step, and the bottom is always inside it. That rule is a classic: the Banach a-posteriori bound.</figcaption>
+    </figure>
+  </div>
+
+  <h3 class="sub">The research adds three upgrades.</h3>
+  <ul class="trio">
+    <li><b>Robot-checked.</b> The key lemmas are proved in Lean, and its kernel checks every step, using only the standard axioms. It never gets bored, and it never lets anything slide.</li>
+    <li><b>Can't beat it.</b> Each guarantee comes with a "rest witness": a proof of where no better guarantee is possible. Part of the inspiration: recent modular-bootstrap work, which pairs a bound with an optimality proof.</li>
+    <li><b>An honest "nope."</b> Sometimes a guarantee <em>cannot</em> exist, and formal proofs say exactly when: volume-preserving dynamics (flip the toy to "No friction"), two competing rest states (one marble, two bowls), or a step ratio drifting to 1. Weaker backup guarantees cover those cases.</li>
+  </ul>
+</section>
+
+<!-- 2. 40x -->
+<section class="act wrap" id="squeeze-act">
+  <p class="num">02</p>
+  <h2>Shrink the bubble 40×.</h2>
+  <div class="cols">
+    <div class="copy">
+      <p>Deep equilibrium networks usually get one guarantee for the whole model. Internal testing suggests it is very conservative.</p>
+      <p>Like saying your keys are "somewhere on this planet." <span class="joke">joke</span></p>
+      <p>Check each answer on its own instead, and the guarantee gets roughly <b class="hot">40×</b> tighter. Zero failures against high-precision checks.</p>
+    </div>
+    <figure class="toy" id="toy-squeeze">
+      <svg id="squeeze" viewBox="0 0 400 300" role="img" aria-label="A big dashed bubble around an answer. Press the button and it squeezes to a bubble roughly 40 times smaller, and the true answer is still inside.">
+        <defs><radialGradient id="sqg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffb54a" stop-opacity=".22"/><stop offset="1" stop-color="#ffb54a" stop-opacity="0"/></radialGradient></defs>
+        <circle id="sq-glow" cx="200" cy="150" r="136" fill="url(#sqg)"/>
+        <circle id="sq-ghost" cx="200" cy="150" r="136" fill="none" stroke="#5a6b80" stroke-width="1" stroke-dasharray="3 6" opacity="0"/>
+        <circle id="sq-bub" cx="200" cy="150" r="136" fill="none" stroke="#ffb54a" stroke-width="2" stroke-dasharray="7 7"/>
+        <circle cx="201.6" cy="151.2" r="2.4" fill="#7fe3d4"/>
+        <circle id="sq-ping" cx="201.6" cy="151.2" r="9" fill="none" stroke="#7fe3d4" stroke-width="1.2" opacity=".0"/>
+        <text id="sq-lbl" x="200" y="290" text-anchor="middle" class="svgt">whole-model guarantee</text>
+      </svg>
+      <div class="ctl"><button class="btn primary" id="sq-btn" type="button" aria-pressed="false">Check this answer on its own</button></div>
+      <figcaption><b>Toy 2.</b> The teal dot is the true answer. The squeeze is drawn at 40×, the rough figure from internal testing.</figcaption>
+    </figure>
+  </div>
+  <div class="card">
+    <p><b>Meanwhile, in gravity math.</b> Classic gravity solvers (Jacobi and Gauss–Seidel, for the Poisson equation) usually stop when the leftover error "looks small."</p>
+    <p>Plot twist: that rule often delivers several times less accuracy than requested. A certified stop delivers what it promises, every time in testing.</p>
+  </div>
+</section>
+
+<!-- 3. RINGS -->
+<section class="act wrap" id="rings-act">
+  <p class="num">03</p>
+  <h2>Rings inside rings inside rings.</h2>
+  <div class="cols">
+    <div class="copy">
+      <p>Light skimming a black hole can loop around it before escaping, like water circling a drain. Every extra loop draws another thin ring. Picture a hallway of mirrors, bent into a circle.</p>
+      <p>The textbook approximation: each ring is about <b class="hot">1/23</b> of the last.</p>
+      <p>The research turns that "about" into an explicit inequality for the non-spinning case, with rigorous error terms. A proven fence around "about."</p>
+    </div>
+    <figure class="toy" id="toy-rings">
+      <canvas id="rings" role="img" aria-label="A dark shadow edged by thin glowing rings. Zooming into the gap just outside the shadow 23 times brings the next ring out to nearly where the last one was, again and again."></canvas>
+      <div class="ctl">
+        <button class="btn primary" id="r-zoom" type="button">Zoom ×23</button>
+        <button class="btn" id="r-auto" type="button" aria-pressed="true">Auto-drift: on</button>
+        <span class="meter" id="r-meter" aria-live="polite">zoom ×1</span>
+      </div>
+      <figcaption><b>Toy 3.</b> This zooms into the thin gap just outside the shadow. Each ring is drawn about 1/23 as far out as the one before, so every ×23 nearly the same picture returns. Schematic, not to scale.</figcaption>
+    </figure>
+  </div>
+  <div class="card">
+    <p><b>Plot twist number two.</b> A 2002 formula for black-hole lensing (Bozza's strong-deflection expansion) says its leftover error is of order ε.</p>
+    <p>Internal analysis indicates it is actually of order ε·log(1/ε). If that holds up, a sneaky little log has been hiding in plain sight since 2002. Numerics support the extra log factor down to very small ε. The limiting ratio is unaffected.</p>
+  </div>
+</section>
+
+<!-- 4. SADDLE -->
+<section class="act wrap" id="saddle-act">
+  <p class="num">04</p>
+  <h2>Run time backwards.</h2>
+  <div class="cols">
+    <div class="copy">
+      <p>Some loops don't settle. They blow up, like a spring being stretched further and further.</p>
+      <p>The trick: rewind. A stretch, run backwards, is a squish. (The math version: an expansion is a contraction of the inverse.) So a loop that expands can still get a guarantee, in reverse.</p>
+      <p>Now the wild one: a loop that stretches one way and squishes the other. A saddle. Run it forward, it escapes sideways. Run it backward, it escapes up and down.</p>
+      <p>So split it. Settle the squishy part forward. Settle the stretchy part backward. <em>Two directions of time, one answer.</em></p>
+    </div>
+    <figure class="toy" id="toy-saddle">
+      <canvas id="saddle" role="img" aria-label="Dots on a saddle. Forward time, they flee sideways. Backward time, they flee up and down. Split time, settling one direction forward and the other backward, pulls them all to the middle."></canvas>
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="Direction of time">
+          <button type="button" id="s-fwd" aria-pressed="false">Forward</button>
+          <button type="button" id="s-bwd" aria-pressed="false">Backward</button>
+          <button type="button" id="s-split" class="on" aria-pressed="true">Split</button>
+        </div>
+        <label class="slide"><span>stretch</span><input id="s-k" type="range" min="1.2" max="2.4" step="0.05" value="1.7" aria-label="How hard the saddle stretches and squishes"></label>
+        <button class="btn" id="s-pass" type="button">One pass</button>
+      </div>
+      <p class="readout" id="s-read" aria-live="polite"></p>
+      <figcaption><b>Toy 4.</b> Sideways is the stretchy direction; up and down is the squishy one. Drag "stretch" to make the saddle steeper.</figcaption>
+    </figure>
+  </div>
+  <div class="card">
+    <p><b>The receipts.</b> In testing, the split gave a certified rate of about <b class="hot">0.56–0.60</b>, where both plain directions refused.</p>
+    <p><b>Plot twist number three.</b> Along the way, the Lean kernel caught that the obvious version of the backward bound is false at the starting point. It only holds from the next step on, and the formal version records that. The proof checker was right.</p>
+  </div>
+</section>
+
+<!-- 5. CALCULATOR -->
+<section class="act wrap" id="calc-act">
+  <p class="num">05</p>
+  <h2>The calculator that falls asleep near 1.</h2>
+  <div class="cols">
+    <div class="copy">
+      <p>Push q super close to 1, like 1 − 10⁻⁹. Each step gets so tiny that double-precision arithmetic rounds it to <em>exactly zero</em>.</p>
+      <p>A naive certificate sees a zero step and says: zero error, all done.</p>
+      <p>But the answer is still measurably far away. That certificate is false.</p>
+      <p>So any honest certificate carries an explicit arithmetic-floor term. This matters for every AI system that iterates to equilibrium.</p>
+    </div>
+    <figure class="toy" id="toy-calc">
+      <div class="calc" id="calc">
+        <div class="lcd" id="c-lcd"><span class="lcd-l">computed step</span><span class="lcd-v" id="c-step">0</span><span class="zzz" aria-hidden="true"><i>z</i><i>z</i><i>z</i></span></div>
+        <dl class="rows">
+          <div><dt>q</dt><dd id="c-q">1 − 10⁻³</dd></div>
+          <div><dt>naive certificate</dt><dd id="c-naive">—</dd></div>
+          <div><dt>still actually away</dt><dd id="c-real">—</dd></div>
+          <div><dt>passes</dt><dd id="c-n">0</dd></div>
+        </dl>
+        <p class="verdict" id="c-verdict" aria-live="polite"></p>
+      </div>
+      <div class="ctl">
+        <label class="slide wide"><span>closer to 1</span><input id="c-k" type="range" min="3" max="12" step="1" value="3" aria-label="How close q is to 1: q equals 1 minus 10 to the minus this many"><output id="c-kv">10⁻³</output></label>
+        <button class="btn primary" id="c-pass" type="button">One more pass</button>
+        <button class="btn" id="c-reset" type="button">Reset</button>
+      </div>
+      <figcaption><b>Toy 5.</b> Live arithmetic in your browser's own doubles. Demo values, not results: the answer is 1000, and the start is 0.00001 away. Slide to 10⁻⁹ and watch the step hit zero. The calculator doesn't really sleep, it rounds. <span class="joke">joke</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 6. WORMHOLES -->
+<section class="act wrap" id="worm-act">
+  <p class="num">06</p>
+  <h2>Wormholes, briefly.</h2>
+  <div class="cols">
+    <div class="copy">
+      <p>Short-throat traversable wormhole: each lensed image shrinks by a steady factor. A certificate applies.</p>
+      <p>Long throat: the step ratio drifts toward 1. A formal proof shows no geometric certificate can exist there. A slower <b class="hot">1/n²</b> guarantee takes its place.</p>
+      <p>The slow lane. Still a real lane.</p>
+    </div>
+    <figure class="toy" id="toy-worm">
+      <svg id="worm" viewBox="0 0 420 200" role="img" aria-label="A row of shrinking lensed images. Short throat: they shrink by a steady factor. Long throat: they shrink more and more slowly."></svg>
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="Throat length">
+          <button type="button" id="w-short" class="on" aria-pressed="true">Short throat</button>
+          <button type="button" id="w-long" aria-pressed="false">Long throat</button>
+        </div>
+      </div>
+      <p class="readout" id="w-read" aria-live="polite"></p>
+      <figcaption><b>Toy 6.</b> Schematic image sizes, drawn to show the shape of each case, not measured data.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- OUTRO -->
+<section class="outro wrap">
+  <h2>So, yeah. Things come to rest.<br><span>Now there's a way to prove it.</span></h2>
+  <p>Status: internal research, not peer-reviewed. Open to discussion.</p>
+  <p><a class="btn" href="../">Read the straight-faced research note →</a></p>
+</section>
+
+</main>
+
+<footer class="foot wrap">
+  <a class="mark" href="../../../index.html"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="#5a6b80" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#ffb54a"/></svg><b>LoneMind</b></a>
+  <span>lonemind.ai</span>
+</footer>
+<script src="whoa.js"></script>
+</body>
+</html>
