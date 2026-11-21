@@ -1,0 +1,63 @@
+/* Einstein setup page: extends the Stasimetry note style. */
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--lamp);margin:0 0 14px}
+.paper h1{max-width:18ch}
+.paper code{font-family:var(--mono);font-size:.88em;color:#e8dcc6;background:rgba(255,255,255,.05);padding:1px 5px;border-radius:5px;overflow-wrap:anywhere}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.toc a{display:inline-block;padding:8px 14px;border:1px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-size:15px;background:rgba(10,14,20,.7)}
+.toc a:hover{color:var(--text);border-color:#3a4658}
+
+.quote blockquote{margin:0;color:#d6dce5;font-size:17px;line-height:1.55}
+.quote blockquote p{margin:0;max-width:none}
+.quote b{color:var(--lamp);font-family:var(--mono);font-weight:600}
+
+ol.flow{list-style:none;padding:0;margin:28px 0 0;counter-reset:f}
+ol.flow li{counter-increment:f;position:relative;padding:16px 0 16px 52px;border-top:1px solid var(--line);color:#cbd2dc;font-size:17px;line-height:1.55}
+ol.flow li:first-child{border-top:0}
+ol.flow li::before{content:counter(f);position:absolute;left:0;top:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--lamp);color:var(--lamp);font-family:var(--mono);font-size:15px;display:grid;place-items:center}
+ol.flow b{color:var(--text)}
+
+.walk{margin-top:30px;background:rgba(10,14,20,.94);border:1px solid var(--line);border-radius:16px;padding:16px 18px 18px}
+.walk-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.walk-tabs button{font:inherit;font-size:14px;min-height:44px;padding:8px 13px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.walk-tabs button[aria-selected=true]{background:var(--lamp);border-color:var(--lamp);color:var(--lamp-ink);font-weight:650}
+.walk-tabs button:hover{color:var(--text)}
+.walk-tabs button[aria-selected=true]:hover{color:var(--lamp-ink)}
+.walk-rail{height:3px;background:var(--line);border-radius:3px;margin:14px 0 4px;overflow:hidden}
+.walk-rail i{display:block;height:100%;width:16.7%;background:var(--lamp);box-shadow:0 0 10px rgba(255,181,74,.6);transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.panel{padding:12px 2px 4px;min-height:260px;animation:pin .35s ease}
+@keyframes pin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.panel p{font-size:17px;line-height:1.6}
+.panel .when{font-family:var(--mono);font-size:13px;color:var(--lamp);letter-spacing:.02em}
+.meta{color:var(--muted)!important;font-size:15.5px!important}
+ol.bars{padding-left:22px;margin:8px 0 0;color:#cbd2dc;font-size:16px;line-height:1.55}
+ol.bars li{margin:7px 0}
+ol.bars b,ul.facts b{color:var(--text)}
+ul.facts{padding-left:20px;color:#cbd2dc;font-size:16px;line-height:1.55}
+ul.facts li{margin:6px 0}
+blockquote.verdict{margin:14px 0;padding:12px 16px;border-left:3px solid var(--lamp);background:rgba(255,181,74,.06);color:#e3e7ee;font-size:16.5px;line-height:1.55;border-radius:0 10px 10px 0}
+.ok{color:var(--ok);font-family:var(--mono);font-weight:650}
+.bad{color:var(--bad);font-family:var(--mono);font-weight:650}
+.walk-ctl{display:flex;gap:12px;justify-content:flex-end;margin-top:8px}
+.walk-ctl .btn{min-height:44px;padding:10px 18px;font-size:16px}
+
+ul.lines{list-style:none;padding:0;margin:26px 0 0}
+ul.lines li{padding:16px 0;border-top:1px solid var(--line)}
+ul.lines li:first-child{border-top:0}
+ul.lines h3{margin:0 0 6px;font-size:19px;color:var(--text);letter-spacing:-.01em}
+ul.lines p{margin:0;color:#cbd2dc;font-size:16.5px;line-height:1.55}
+
+.neg .lead > strong:first-child{color:#ffd2c9}
+table.negt{width:100%;border-collapse:collapse;margin-top:24px;font-size:15.5px;background:rgba(10,14,20,.94);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.negt caption{text-align:left;color:var(--muted);font-size:14px;padding:0 0 8px;font-family:var(--mono)}
+.negt th,.negt td{padding:11px 12px;text-align:left;border-top:1px solid var(--line);vertical-align:top;color:#cbd2dc}
+.negt th{color:var(--text);font-weight:600;border-top:0;background:rgba(255,255,255,.03)}
+.negt td.win{color:var(--text)}
+.negt td.win::before{content:"✓ ";color:var(--ok)}
+
+@media (max-width:640px){
+  .walk{padding:12px 10px 14px}
+  .walk-tabs button{font-size:13px;padding:6px 9px;flex:1 1 30%}
+  .panel{min-height:0}
+  ol.flow li{padding-left:46px}
+  .negt th,.negt td{padding:9px 8px;font-size:14px}
+}

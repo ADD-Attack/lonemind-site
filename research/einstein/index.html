@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Einstein seat: setup and research lines · LoneMind</title>
+<meta name="description" content="How LoneMind's research seat works: a Lean kernel gate, file-based memory, and tickets graded against frozen bars by an independent grader. Plus an index of the research lines, including one negative result.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#06080c">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../css/site.css">
+<link rel="stylesheet" href="../stasimetry/note.css">
+<link rel="stylesheet" href="einstein.css">
+</head>
+<body class="note">
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-fallback" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<header>
+  <nav class="top" aria-label="Main">
+    <a class="mark" href="../../index.html"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="#5a6b80" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#ffb54a"/></svg><b>LoneMind<sup style="font-size:.5em;font-weight:500;margin-left:1px">™</sup></b></a>
+  </nav>
+</header>
+<main id="main">
+<article class="wrap paper">
+
+<p class="kicker">Research setup · internal, not peer-reviewed</p>
+<h1>How the Einstein seat works</h1>
+
+<section class="block">
+<p class="lead"><strong>The short version.</strong> Einstein is the research and formal-verification seat in a small fleet of AI agents. Its charter scopes it to "work whose results can be <em>checked</em>, not merely reviewed." The agent itself is a language model, and nothing below asks you to trust its prose. The setup exists so that every claim is checked by something that is not the model: the Lean kernel, numerical instruments that anyone can re-run, and a separate grading seat that re-measures the work against bars frozen before it began.</p>
+<nav class="toc" aria-label="On this page">
+  <a href="#tools">1 · Tools</a><a href="#memory">2 · Memory</a><a href="#tickets">3 · Tickets</a><a href="#worked">4 · One real ticket</a><a href="#lines">5 · Research lines</a><a href="#negative">6 · A negative result</a>
+</nav>
+</section>
+
+<section class="block" id="tools">
+<p class="lead"><strong>1 · Tools: a kernel, instruments, a shared GPU queue.</strong> Each tool answers a different question. The kernel asks whether this follows. The instruments ask whether the numbers come out. The queue decides where heavy computation runs.</p>
+<ul class="items">
+<li><strong>The Lean kernel is the gate for proofs.</strong> Formal work lives in one Lean 4 project (toolchain v4.35.0, with Mathlib), with files such as <code>GeometricTail.lean</code>, <code>SubringRatio.lean</code>, <code>HorizonFreeze.lean</code>, <code>MirrorCertificate.lean</code> and <code>RatioRefusal.lean</code>. The charter's rule is blunt: "A proof exists when the kernel accepts it. 'Almost compiles' is not a state." Every formal deliverable prints <code>#print axioms</code>. Anything beyond Lean's standard three (<code>propext</code>, <code>Classical.choice</code>, <code>Quot.sound</code>) must appear in the report's first lines. Each report also restates the target in plain language beside the Lean statement, so a reader can check the right theorem was proved and not a neighbour of it.</li>
+<li><strong>The kernel checks only what was stated.</strong> The seat's own notes record the limit. In one rendering job a sign was wrong (T = x − κh′ where the correct map is x + κh′), and "the Lean file would have compiled either way." A numerical oracle caught it: an exact-Snell ray trace showed a half-period offset. Going the other way, the kernel caught that a naive backward ("mirror") bound is false at the starting point. It holds only from the next iterate on, and the formal version says so.</li>
+<li><strong>Numerical instruments are first-class.</strong> Small Python calculators and checkers live in the seat's <code>tools/</code> folder and get named in each report. In the worked ticket below, the analytic remainder bound was assembled in rigorous interval arithmetic (<code>mpmath.iv</code>, 30 digits, 2000 subintervals). For a Kerr ticket, a verifier written separately from the main code reproduced a quasinormal frequency, Mω = 0.3736716844 − 0.0889623157i, to 10 digits against a published table.</li>
+<li><strong>GPU work goes through one router.</strong> Training runs and model jobs are submitted through a shared router (<code>gpu-run</code>) or a priority backlog. The seat states the job's peak memory and does not pick a machine itself. A job that fails after running a minute or more is not retried automatically. That rule has a history: on 2026-11-18 several heavy jobs stacked on one host crashed it, and briefs now forbid auto-relaunching heavy jobs after a restart.</li>
+</ul>
+</section>
+
+<section class="block" id="memory">
+<p class="lead"><strong>2 · Memory is files, read in full.</strong> The model keeps nothing between tickets. Each ticket runs as a fresh session, so whatever the seat has learned has to be written down where the next session will read it.</p>
+<ul class="items">
+<li><strong><code>memory/LESSONS.md</code></strong> is read in full before every ticket and appended at every close. As of today it holds 263 numbered entries (<code>einstein#1</code> … ) plus dated notes. Each entry carries a <code>Tags:</code> line (medium, tool or process, failure mode) and a <code>uses:</code> line naming the earlier lessons it builds on, so lessons cite each other.</li>
+<li><strong>Retrieval does not trust search.</strong> "A <code>memory_search</code> miss never means 'not in memory.'" The fallback is a read from a known path, then a direct grep of the files, and the report names which route found the answer.</li>
+<li><strong>Records are the evidence.</strong> Every ticket leaves a folder: <code>REPORT.md</code>, the Lean sources, logs, the instruments and the sources read. The grader's verdicts sit in a separate workspace, one record per judged pass, so the seat cannot edit its own grades.</li>
+</ul>
+<figure class="fig quote">
+<blockquote><p><b>einstein#424.</b> A REPORT must open with the plain-words section, and the LESSONS entry is part of close; check both before delivering. … Before running deliver, grep LESSONS for the ticket id and check that line 3 of REPORT.md is the plain-words heading.</p></blockquote>
+<figcaption><span class="fn">Example</span> A real entry, written after the ticket in §4 failed its first grade. It is about process, not mathematics, and most entries are.</figcaption>
+</figure>
+</section>
+
+<section class="block" id="tickets">
+<p class="lead"><strong>3 · Tickets: bars frozen first, graded by someone else.</strong> Work arrives as a ticket, and a ticket's life is fixed in advance.</p>
+<ol class="flow">
+<li><b>Brief.</b> It states the outcome, the inputs, the authority (what the seat may and may not do; publishing, money and credentials always stop at the owner), a deadline with its basis, and the <em>frozen bars</em>: numbered, checkable acceptance criteria.</li>
+<li><b>Freeze.</b> At dispatch the brief and its bars are hashed (sha256). When work is delivered, intake checks that the brief's hash still equals the dispatch hash. Nobody can move the goalposts afterwards, the seat included.</li>
+<li><b>Delivery.</b> One command, <code>deliver &lt;ticket&gt; &lt;artifacts&gt;</code>, is the only way to mark work delivered. It records the artifacts' hashes and opens a grading session.</li>
+<li><b>Independent grade.</b> The Judge seat first re-runs what it can (builds the Lean, re-runs the instruments), then rules MET or NOT MET on each bar, then gives a verdict: PASS or MISS. A submission gets up to two judged passes, and a ticket gets up to three submissions. On a MISS, a <em>drill</em> asks for a fix to the failed bars only.</li>
+<li><b>Close.</b> Only the Judge closes an order, and only on a PASS. Closing wakes whoever filed the ticket. The seat then writes its lesson.</li>
+</ol>
+</section>
+
+<section class="block" id="worked">
+<p class="lead"><strong>4 · One real ticket, end to end.</strong> Ticket <code>20261120-einstein-44470660</code>, from tonight's photon-ring line: <em>"STEP 2: analytic proof of the subring ratio bound, Schwarzschild."</em> It failed its first grade on a process bar, which makes it a better illustration than a clean pass. Step through it.</p>
+
+<div class="walk" id="walk">
+  <div class="walk-tabs" role="tablist" aria-label="Ticket stages">
+    <button role="tab" id="t0" aria-controls="p0" aria-selected="true">1 Brief</button>
+    <button role="tab" id="t1" aria-controls="p1" aria-selected="false" tabindex="-1">2 Bars</button>
+    <button role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1">3 Delivery</button>
+    <button role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1">4 Grade: MISS</button>
+    <button role="tab" id="t4" aria-controls="p4" aria-selected="false" tabindex="-1">5 Drill: PASS</button>
+    <button role="tab" id="t5" aria-controls="p5" aria-selected="false" tabindex="-1">6 Lesson</button>
+  </div>
+  <div class="walk-rail" aria-hidden="true"><i id="rail"></i></div>
+
+  <section role="tabpanel" id="p0" aria-labelledby="t0" class="panel">
+    <p class="when">Dispatched 2026-11-20 06:38:31 CST · deadline 08:45 · class: graded</p>
+    <p>The task was to prove the bound half of the "each photon subring is about 1/23 of the last" premise for a non-spinning black hole: <em>ratio<sub>n</sub> ≤ e<sup>−π</sup>(1+ε<sub>n</sub>), with explicit ε<sub>n</sub> → 0</em>, starting from the exact deflection angle. Cross-check it against the earlier Kerr ticket <code>fc7f6f51</code>, and formalize the step from remainder to ratio in Lean using the existing <code>GeometricTail</code> lemma.</p>
+    <p class="meta">Deadline basis, as written: "direct analog fc7f6f51 (Kerr certificate, same line) ~1.25h; ~2h at P75-P95 for derivation + full-text reads + Lean." Authority: internal research only, no publishing.</p>
+  </section>
+  <section role="tabpanel" id="p1" aria-labelledby="t1" class="panel" hidden>
+    <p class="when">Bars sha256 c5073529… (frozen at dispatch)</p>
+    <ol class="bars">
+      <li><b>Exact deflection.</b> Derive α(b) = −log(b/b<sub>c</sub> − 1) + ā + R(b) from the elliptic-integral form, with ā exact.</li>
+      <li><b>Remainder.</b> Bound R(b) explicitly with constants. Prove the ratio bound for image positions and flux under a stated emission model. Read Bozza 2002, Darwin 1959, Gralla &amp; Lupsasca 2020 and Johnson et al. 2020 in full, and flag anything read only as an abstract.</li>
+      <li><b>Cross-check</b> against the measured ratios from <code>fc7f6f51</code>, and against the margin sweep <code>4bf71add</code> if it had reported.</li>
+      <li><b>Lean.</b> At minimum, remainder bound ⇒ ratio bound with GeometricTail. Include <code>#print axioms</code>, and say which parts rest on unformalized analysis.</li>
+      <li><b>Chain.</b> Confirm that the follow-on ticket (steps 3–4, spinning holes) exists and is queued.</li>
+      <li><b>Close with</b> a REPORT.md that <em>starts</em> with plain words, a LESSONS entry, and a completion post.</li>
+    </ol>
+  </section>
+  <section role="tabpanel" id="p2" aria-labelledby="t2" class="panel" hidden>
+    <p class="when">Intake accepted 07:03:46 · "brief hash equals the dispatch hash"</p>
+    <p>Delivered: REPORT.md, <code>SubringRatio.lean</code>, the interval-arithmetic tools and their logs. Key results from the report:</p>
+    <ul class="facts">
+      <li>ā = log(216(7−4√3)) − π = −0.40023003975526165…, matching Bozza's b̄ = −0.4002.</li>
+      <li>|R| ≤ ε(A + B·log 1/ε) with explicit constants, for example A = 7.6749 and B = 0.64414 on δ ≤ 1.</li>
+      <li>Ratio bound for n ≥ n₀ = 1. The proven position bound is 1.07676·e<sup>−π</sup> at n = 1 and 1.003566·e<sup>−π</sup> at n = 2. Every exact ratio lies <em>below</em> e<sup>−π</sup>, approaching it from below.</li>
+      <li>A flagged deviation: the remainder is O(ε log 1/ε), not O(ε) as Bozza 2002 states. The limiting ratio is unaffected.</li>
+      <li>Darwin 1959 was flagged NOT READ (the publisher returned 403), as bar 2 requires.</li>
+    </ul>
+  </section>
+  <section role="tabpanel" id="p3" aria-labelledby="t3" class="panel" hidden>
+    <p class="when">Judge pass 1 · MISS recorded 07:04:54</p>
+    <p>Gate 1, re-measured by the Judge: the Lean file rebuilt with exit 0 and five theorems, using only the standard three axioms, with no <code>sorry</code>. ā was re-derived to 30 digits. The bound check re-ran to the same ratios (0.3838 / 0.7303 / 0.8583). Bars 1–5: <span class="ok">MET</span>. Bar 6: <span class="bad">NOT MET</span>.</p>
+    <blockquote class="verdict">"Mathematically strong and reproducible: bars 1–5 met, with re-runs matching. Bar 6 fails: no LESSONS entry exists for this ticket, and REPORT.md does not start with the plain-words section (it opens with an Axioms paragraph). Drill only bar 6 … No mathematical rework is needed."</blockquote>
+  </section>
+  <section role="tabpanel" id="p4" aria-labelledby="t4" class="panel" hidden>
+    <p class="when">Judge pass 2 · PASS recorded 07:05:53 · order closed by Judge 07:06:05, requester woken</p>
+    <p>A retry session made the two bar-6 fixes and changed nothing else. The Judge checked the new REPORT.md hash against the delivery record and found the plain-words heading directly under the title. It also confirmed that LESSONS entry #137 names the ticket. Later appends had changed the file's hash, and the Judge recorded that as "not a defect."</p>
+    <blockquote class="verdict">"Both pass-1 defects are fixed … All six bars are met." <span class="ok">PASS</span></blockquote>
+  </section>
+  <section role="tabpanel" id="p5" aria-labelledby="t5" class="panel" hidden>
+    <p class="when">Appended to memory/LESSONS.md · now numbered einstein#424</p>
+    <blockquote class="verdict">"Submission 1 still missed: there was no LESSONS entry, and an Axioms paragraph sat above the plain words. The charter says axioms go in the 'first lines', and the brief says to start with plain words; meet both by putting plain words first and axioms right after them. Before running deliver, grep LESSONS for the ticket id and check that line 3 of REPORT.md is the plain-words heading."</blockquote>
+    <p class="meta">The mathematics was right the first time. What failed was the close, and the lesson is a two-line check the next session will read before it delivers.</p>
+  </section>
+
+  <div class="walk-ctl">
+    <button class="btn" id="w-prev" type="button">← Back</button>
+    <button class="btn primary" id="w-next" type="button">Next stage →</button>
+  </div>
+</div>
+</section>
+
+<section class="block" id="lines">
+<p class="lead"><strong>5 · The research lines, one honest line each.</strong> Most of this work iterates a step until it settles. The common thread, <b class="name">Stasimetry</b>, asks when such a loop can be <em>certified</em>, and when it provably cannot.</p>
+<ul class="lines">
+<li><h3><a href="../stasimetry/">Stasimetry: research note</a></h3><p>A computable a-posteriori bound on distance to the fixed point, paired with "rest witnesses" for sharpness and formal refusals where no certificate can exist. <a href="../stasimetry/whoa/">The playful version, with six toys →</a></p></li>
+<li><h3>Photon rings and Kerr certificates</h3><p>For a non-spinning hole, "each ring is about 1/23 of the last" is now an explicit inequality with rigorous error terms (§4). For Kerr, q = e<sup>−γ</sup> turned out to be a rate, not a bound. The spinning-hole proof is filed as the next step. No page yet.</p></li>
+<li><h3><a href="../../x/heatring-49426de7/">The heat ring</a> · <a href="../../x/heatring-49426de7/part2/">part 2</a></h3><p>Demos of the certified-settling network (StasDEQ) on a heat-diffusion ring, run against rival architectures. Results are reported arm by arm, as measured.</p></li>
+<li><h3>Gravity solvers</h3><p>For Jacobi and Gauss–Seidel on the Poisson equation, the usual "residual looks small" stop often delivered several times less accuracy than requested. A certified stop delivered what it promised every time in testing.</p></li>
+<li><h3>Fermat–Snell caustics</h3><p>Light-focusing patterns rendered with formal checks on the optics. This is the line where a numerical oracle caught a sign error the Lean file would have accepted (§1).</p></li>
+<li><h3>Mini-model mesh</h3><p>Small models wired as a certified mesh. On one tested configuration, raising the contraction cap from 0.98 to 0.995 did not improve validation (47.5% against 50.5%) and cost 2.6× per step.</p></li>
+<li><h3>Layered settle</h3><p>A single certified settle block among attention or convolution layers costs nothing or helps when it sits after attention or on top of convolutions, and costs about 10 points when it is the last block before the decoder.</p></li>
+</ul>
+</section>
+
+<section class="block neg" id="negative">
+<p class="lead"><strong>6 · Language and image models: a negative result.</strong> StasDEQ, the certified-settling network, <em>did not beat baselines on the language and image tasks tested.</em> This page claims no strength in language modelling.</p>
+<table class="negt">
+<caption>What was tested, and what won</caption>
+<thead><tr><th scope="col">Task</th><th scope="col">StasDEQ</th><th scope="col">Baseline</th></tr></thead>
+<tbody>
+<tr><td>Byte-level language modelling (matched non-DEQ baseline, bits per character, lower is better)</td><td>3.09–3.16, and 2.4–126× slower</td><td class="win">2.998</td></tr>
+<tr><td>MNIST restoration, noise and 1.5 px blur</td><td>lost by 0.4 / 0.9 dB, all seeds</td><td class="win">same-size CNN</td></tr>
+<tr><td>Video upscaling (PSNR)</td><td>29.0 dB</td><td class="win">29.5 / 29.8 dB (3-D / 2-D CNN)</td></tr>
+<tr><td>MNIST inpainting (judge accuracy)</td><td>67%</td><td class="win">82% (plain heat-fill)</td></tr>
+</tbody>
+</table>
+<p class="meta">An earlier run showed StasDEQ ahead on byte LM (3.10 against 3.52 bits per byte), but that baseline was an untuned transformer at 27× unmatched compute, so it does not count as a win. The seat's own audit found that the matched baseline above had gone unread for four days while product text overstated the result. That audit is part of the record too. The contribution here is the certificates, not the network.</p>
+</section>
+
+<section class="block status-block">
+<p><strong>Status.</strong> Internal research, not peer-reviewed. Every system fact on this page is taken from the seat's charter, its LESSONS file, the ticket brief, and the grader's records. The accuracy of this page was checked by the Einstein seat before it was published.</p>
+<p class="sig">— LoneMind.ai</p>
+</section>
+
+</article>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div><b style="color:var(--text)">LoneMind™</b> · lonemind.ai</div>
+    <ul><li><a href="../../index.html">Home</a></li></ul>
+  </div>
+</footer>
+<script src="einstein.js"></script>
+</body>
+</html>
