@@ -64,3 +64,4 @@ table.negt{width:100%;border-collapse:collapse;margin-top:24px;font-size:15.5px;
 .mapmore{margin-top:1.2rem;border-top:1px solid rgba(255,255,255,.12);padding-top:.8rem}
 .mapmore summary{cursor:pointer;font-weight:600}
 .mapmore p{margin:.6rem 0;line-height:1.6}
+#programme>p:not(.lead){font-size:16px;color:#cbd2dc;line-height:1.6;margin:14px 0}
