@@ -61,3 +61,6 @@ table.negt{width:100%;border-collapse:collapse;margin-top:24px;font-size:15.5px;
   ol.flow li{padding-left:46px}
   .negt th,.negt td{padding:9px 8px;font-size:14px}
 }
+.mapmore{margin-top:1.2rem;border-top:1px solid rgba(255,255,255,.12);padding-top:.8rem}
+.mapmore summary{cursor:pointer;font-weight:600}
+.mapmore p{margin:.6rem 0;line-height:1.6}
