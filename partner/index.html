@@ -30,6 +30,19 @@
   </form>
 </main>
 
+<main id="setpw-view" class="login" hidden>
+  <form id="setpw-form" class="login-card" autocomplete="on">
+    <p class="eyebrow">LoneMind · partner</p>
+    <h1>Set your password</h1>
+    <label for="newpw">New password (12+ characters)</label>
+    <input id="newpw" name="new-password" type="password" autocomplete="new-password" minlength="12" required>
+    <label for="newpw2">Repeat</label>
+    <input id="newpw2" type="password" autocomplete="new-password" minlength="12" required>
+    <button type="submit" id="setpw-btn">Save password</button>
+    <p id="setpw-error" class="error" role="alert"></p>
+  </form>
+</main>
+
 <div id="dash-view" hidden>
   <header class="topbar">
     <div>
