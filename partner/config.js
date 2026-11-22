@@ -3,8 +3,8 @@
 // NEVER put the service_role key here: it bypasses Row-Level Security and stays
 // only in the fleet-side publisher on the partner's machines.
 window.PARTNER_CONFIG = {
-  supabaseUrl: 'https://YOUR-PROJECT-REF.supabase.co',
-  anonKey: 'YOUR-ANON-PUBLIC-KEY',
+  supabaseUrl: 'https://yooryjndcobgwvuopexr.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlvb3J5am5kY29iZ3d2dW9wZXhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyODE4MTgsImV4cCI6MjExMDg1NzgxOH0.gX3wP85ILS4vR2U4NDpUfUfCoGIliHcndTa0faNKCU0',
   // Supabase Auth signs in by email. A bare username is turned into username@usernameDomain.
   usernameDomain: 'partner.moorefolio.invalid',
 
