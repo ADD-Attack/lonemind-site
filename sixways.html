@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Six ways a model can think · LoneMind</title>
+<meta name="description" content="Six machines that turn words into answers, each on a bench you can poke: a chatbot, a transformer, Liquid AI's hybrid blocks, LFM2, LoneMind's stasDEQ, and a proposed stasHybrid.">
+<meta name="theme-color" content="#06080c">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/site.css">
+<script src="js/config.js"></script>
+<style>
+.sx-hero{padding:56px 24px 28px}
+.sx-hero h1{font-size:clamp(40px,6vw,72px);line-height:1.02;letter-spacing:-.03em;margin:.2em 0 .3em;max-width:14ch}
+.sx-idx{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:26px 0 0}
+.sx-idx a{display:block;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(12,16,23,.8);color:var(--muted);text-decoration:none;font-size:15px}
+.sx-idx a:hover{color:var(--text);border-color:#3a4656}
+.sx-idx b{color:var(--lamp);font-family:var(--mono);font-weight:500;margin-right:6px}
+.sx{padding:64px 0;border-top:1px solid rgba(255,255,255,.06)}
+.sx h2{font-size:clamp(28px,3.4vw,42px);line-height:1.1;letter-spacing:-.02em;margin:0 0 .35em}
+.sx .claim{font-size:19px;color:#d6dce5;max-width:62ch;margin:0 0 22px}
+.sx-cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px;align-items:start}
+.sx-text p{color:#cbd2dc;font-size:17px;margin:0 0 12px}
+.sx-text b{color:var(--text)}
+.toy{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.toy+.toy{margin-top:16px}
+.toy h3{font-size:18px;margin:0 0 4px}
+.toy .sub{font-size:15px;color:var(--muted);margin:0 0 10px}
+.toy canvas{display:block;width:100%;border-radius:10px;background:#090c12;border:1px solid #18202b;touch-action:manipulation}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:12px;font-size:15px;color:var(--muted)}
+.ctl button{min-height:44px;min-width:64px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:#121822;color:var(--text);font:600 15px var(--sans);cursor:pointer}
+.ctl button:hover{border-color:#3a4656}
+.ctl button[data-a=play]{background:var(--lamp);color:var(--lamp-ink);border-color:var(--lamp)}
+.ctl label{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-height:44px}
+.ctl input[type=range]{flex:1;accent-color:var(--lamp);min-width:90px;height:28px}
+.ctl output{font-family:var(--mono);font-size:14px;color:var(--text);min-width:6ch}
+.hint{font-size:14px;color:var(--lamp);margin:10px 0 0}
+.toy .tag{white-space:normal;line-height:1.4}
+.tag.prop{border-color:rgba(255,138,122,.6);color:var(--bad)}
+.src{font-size:14px;color:var(--dim);margin-top:18px;max-width:80ch}
+.src a{color:var(--muted)}
+.cmp{width:100%;border-collapse:collapse;font-size:16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cmp th,.cmp td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp th{font-size:13px;font-family:var(--mono);color:var(--lamp);font-weight:500;letter-spacing:.04em}
+.cmp tr.us td{background:rgba(127,216,166,.07)}
+.cmp td:first-child{font-weight:650;color:var(--text)}
+.cmp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:900px){.sx-cols{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .sx{padding:48px 0}.toy{padding:12px}
+  .cmp,.cmp tbody,.cmp tr,.cmp td{display:block}.cmp thead{display:none}
+  .cmp tr{border-bottom:1px solid var(--line);padding:10px 0}.cmp td{border:0;padding:4px 14px}
+  .cmp td::before{content:attr(data-h);display:block;font:500 12px var(--mono);color:var(--lamp);letter-spacing:.04em}
+}
+</style>
+</head>
+<body data-scene="home">
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-fallback" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<header>
+  <nav class="top" aria-label="Main">
+    <a class="mark" href="index.html"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="21" fill="none" stroke="#5a6b80" stroke-width="4"/><circle cx="32" cy="32" r="8" fill="#ffb54a"/></svg><b>LoneMind<sup style="font-size:.5em;font-weight:500;margin-left:1px">™</sup></b></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="navlist">Menu</button>
+    <ul class="nav" id="navlist"><li><a href="index.html">Home</a></li><li><a href="app.html">The app</a></li><li><a href="school.html">School</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="faq.html">FAQ</a></li></ul>
+  </nav>
+</header>
+<main id="main">
+<section class="wrap sx-hero">
+  <p class="eyebrow">Explainer · six benches you can poke</p>
+  <h1>Six ways a model can think.</h1>
+  <p class="lede" style="max-width:46ch">Five of these machines always give you an answer. One of them can tell you it isn't sure. Every bench below is live: press Pause, Step, or drag a slider.</p>
+  <ul class="sx-idx">
+    <li><a href="#p1"><b>1</b>Chatbot</a></li><li><a href="#p2"><b>2</b>Transformer</a></li><li><a href="#p3"><b>3</b>Liquid's blocks</a></li><li><a href="#p4"><b>4</b>Liquid AI</a></li><li><a href="#p5"><b>5</b>stasDEQ</a></li><li><a href="#p6"><b>6</b>stasHybrid</a></li>
+  </ul>
+</section>
+
+<section class="sx" id="p1"><div class="wrap">
+  <span class="kicker">01 · A regular LLM, from the outside</span>
+  <h2>It guesses one word at a time.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Text goes in as <b>tokens</b> (pieces of words). The model scores every possible next token, picks one, adds it to the end, and repeats.</p>
+      <p><b>Temperature</b> is a dial. Low means it nearly always takes the favourite. High means it takes more chances.</p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="1" data-h="230" aria-label="Next-token probabilities for a short sentence; bars change with temperature"></canvas>
+      <div class="ctl"><button data-t="1" data-a="play">Pause</button><button data-t="1" data-a="step">Step</button><button data-t="1" data-a="reset">Reset</button>
+        <label>temperature <input type="range" id="s1" min="0.1" max="2" step="0.05" value="0.8"><output id="v1"></output></label></div>
+      <p class="hint">Drag temperature all the way down: the top bar swallows the rest.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p2"><div class="wrap">
+  <span class="kicker">02 · Inside a transformer</span>
+  <h2>Every word looks back. Then it's done.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Inside, every token <b>looks at every earlier token</b> and decides how much each one matters. That is "attention".</p>
+      <p>It happens in a stack of layers, and the trip up the stack is <b>one fixed pass</b>: the same amount of work for an easy question or a hard one.</p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="2" data-h="230" aria-label="Attention arcs from one token to earlier tokens, layer by layer"></canvas>
+      <div class="ctl"><button data-t="2" data-a="play">Pause</button><button data-t="2" data-a="step">Step</button><button data-t="2" data-a="reset">Reset</button></div>
+      <p class="hint">Step through: the pass climbs one layer, then a new word takes its turn.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p3"><div class="wrap">
+  <span class="kicker">03 · The building blocks inside Liquid's hybrids</span>
+  <h2>Not one block repeated. A mix.</h2>
+  <p class="claim">Liquid AI's models mix several kinds of block, each moving information differently. Section 4 shows how LFM2 stacks them. Section 6 is a proposed LoneMind design that mixes block types the same way and adds exact, rule-based parts.</p>
+  <div class="grid g2" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))">
+    <div class="toy">
+      <span class="tag">In LFM2 [1,2]</span>
+      <h3 style="margin-top:8px">A · Gated short convolution</h3>
+      <p class="sub">Each token looks at only a few neighbours. Gates made from the input scale the signal before and after. Cheap. LFM2 uses 10 of these.</p>
+      <canvas data-toy="31" data-h="150" aria-label="A short window sliding along a sentence"></canvas>
+      <div class="ctl"><button data-t="31" data-a="play">Pause</button><button data-t="31" data-a="step">Step</button><button data-t="31" data-a="reset">Reset</button>
+        <label>window <input type="range" id="s31" min="2" max="5" step="1" value="3"><output id="v31"></output></label></div>
+    </div>
+    <div class="toy">
+      <span class="tag">In LFM2 [1,2]</span>
+      <h3 style="margin-top:8px">B · Grouped-query attention</h3>
+      <p class="sub">A token can look at every earlier token. Several query heads share one set of keys and values, which saves memory. LFM2 uses 6 of these.</p>
+      <canvas data-toy="32" data-h="150" aria-label="Four attention heads reaching back to all earlier tokens"></canvas>
+      <div class="ctl"><button data-t="32" data-a="play">Pause</button><button data-t="32" data-a="step">Step</button><button data-t="32" data-a="reset">Reset</button></div>
+    </div>
+    <div class="toy">
+      <span class="tag soft">In Liquid's STAR search space [3] · not in released LFM2</span>
+      <h3 style="margin-top:8px">C · Linear recurrence</h3>
+      <p class="sub">Reads tokens one at a time into a fixed-size running state: new state = keep × old state + input. Memory never grows.</p>
+      <canvas data-toy="33" data-h="150" aria-label="A four-number state updating as tokens arrive"></canvas>
+      <div class="ctl"><button data-t="33" data-a="play">Pause</button><button data-t="33" data-a="step">Step</button><button data-t="33" data-a="reset">Reset</button>
+        <label>keep <input type="range" id="s33" min="0" max="0.98" step="0.01" value="0.8"><output id="v33"></output></label></div>
+    </div>
+    <div class="toy">
+      <span class="tag soft">The umbrella family [1,3]</span>
+      <h3 style="margin-top:8px">D · LIV operators</h3>
+      <p class="sub">Linear input-varying: a linear operation whose weights are made from the input itself. Here three mixing weights are rebuilt for every token (blue), where an ordinary layer keeps them fixed (grey).</p>
+      <canvas data-toy="34" data-h="150" aria-label="Input-made weights changing per token beside fixed weights"></canvas>
+      <div class="ctl"><button data-t="34" data-a="play">Pause</button><button data-t="34" data-a="step">Step</button><button data-t="34" data-a="reset">Reset</button></div>
+    </div>
+    <div class="toy" style="grid-column:1/-1">
+      <span class="tag soft">Liquid's research roots [4,5] · not listed as LFM2 blocks</span>
+      <h3 style="margin-top:8px">E · Liquid neurons: LTC and CfC</h3>
+      <p class="sub">A liquid time-constant (LTC) neuron reacts at a speed set by its input, and is simulated with many small steps (grey dots). The closed-form (CfC) version writes the answer down directly at any time (green points), so it is much faster.</p>
+      <canvas data-toy="35" data-h="150" aria-label="Many small simulation steps beside closed-form jumps on the same curve"></canvas>
+      <div class="ctl"><button data-t="35" data-a="play">Pause</button><button data-t="35" data-a="step">Step</button><button data-t="35" data-a="reset">Reset</button></div>
+    </div>
+  </div>
+  <p class="src">Sources: [1] Liquid AI, <a href="https://www.liquid.ai/blog/liquid-foundation-models-v2-our-second-series-of-generative-ai-models">“Introducing LFM2”</a>, 10 July 2025: 16 blocks, 10 double-gated short-range convolution + 6 grouped-query attention; describes LIV operators. [2] <a href="https://huggingface.co/LiquidAI/LFM2-1.2B">LFM2-1.2B model card</a>, Hugging Face: 16 layers (10 conv + 6 attn). [3] Thomas et al., <a href="https://arxiv.org/abs/2411.17800">“STAR: Synthesis of Tailored Architectures”</a>, arXiv:2411.17800 (2024). [4] Hasani et al., <a href="https://arxiv.org/abs/2006.04439">“Liquid Time-constant Networks”</a>, AAAI 2021. [5] Hasani et al., <a href="https://arxiv.org/abs/2106.13898">“Closed-form continuous-time neural networks”</a>, Nature Machine Intelligence 4, 992–1003 (2022). Which STAR-found blocks ship in later Liquid models is not stated in these sources.</p>
+</div></section>
+
+<section class="sx" id="p4"><div class="wrap">
+  <span class="kicker">04 · Liquid AI</span>
+  <h2>A neuron whose speed changes with the input.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Liquid AI grew out of <b>liquid time-constant neurons</b>: tiny continuous-time units whose reaction speed <b>changes with the input</b>. Strong input makes them snap quickly; weak input lets them drift.</p>
+      <p>Their language models (LFM2) are a <b>hybrid</b>: mostly short-convolution blocks for local patterns, with a few attention blocks for long-range lookup. LFM2-1.2B has 10 convolution + 6 attention [1,2].</p>
+      <svg viewBox="0 0 540 70" role="img" aria-label="LFM2-1.2B stack: 10 convolution blocks and 6 attention blocks" style="width:100%;margin-top:6px"><g id="lfm"></g>
+        <rect x="0" y="52" width="12" height="12" rx="2" fill="#8fb3e0"/><text x="18" y="62" fill="#a9b3c1" font-size="13">short convolution</text>
+        <rect x="170" y="52" width="12" height="12" rx="2" fill="#ffb54a"/><text x="188" y="62" fill="#a9b3c1" font-size="13">attention</text>
+        <text x="300" y="62" fill="#7d8898" font-size="12">order illustrative</text></svg>
+    </div>
+    <div class="toy">
+      <canvas data-toy="4" data-h="230" aria-label="Liquid neuron trace against a fixed-speed neuron under switching input"></canvas>
+      <div class="ctl"><button data-t="4" data-a="play">Pause</button><button data-t="4" data-a="step">Step</button><button data-t="4" data-a="reset">Reset</button>
+        <label>input strength <input type="range" id="s4" min="0" max="3" step="0.05" value="1.5"><output id="v4"></output></label></div>
+      <p class="hint">Push input strength up: the green neuron's time-constant shrinks and it snaps faster.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p5"><div class="wrap">
+  <span class="kicker">05 · stasDEQ · LoneMind's certified equilibrium model</span>
+  <h2>It loops until it settles, and proves it.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Bytes pass through a small encoder, which makes a nudge <b>c</b>. Then one shared core runs <b>over and over</b>: z ← relu((1−a)z + a(Wz + c)), with W = (1−m)I − AᵀA + (B−Bᵀ). That recipe for W is built so the loop tends to settle.</p>
+      <p>Every pass is checked. The stretch <b>q</b> of one step must be under 1; then the distance left to the settled answer is <b>at most q/(1−q) × the last step's movement</b>. If q ≥ 1, the model <b>refuses to certify</b> instead of guessing.</p>
+      <p class="small">About 2.4M weights in total, about 262K in the core, a 512-number state.</p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="5" data-h="262" aria-label="Contraction gauge, certificate status, and distance-to-answer plot with certified bound"></canvas>
+      <div class="ctl"><button data-t="5" data-a="play">Pause</button><button data-t="5" data-a="step">Step</button><button data-t="5" data-a="reset">New input</button>
+        <label>twist (size of B) <input type="range" id="s5" min="0" max="2.5" step="0.05" value="0.3"><output id="v5"></output></label></div>
+      <p class="hint">Push twist to the right until the gauge crosses 1. Watch it refuse.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p6"><div class="wrap">
+  <span class="kicker">06 · stasHybrid · proposed design</span>
+  <h2>Send each job to the right kind of neuron. <span class="tag prop" style="vertical-align:middle">Proposed</span></h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p><b>A proposed LoneMind design, not built or tested.</b> Instead of one kind of neuron everywhere, mix three:</p>
+      <p><b>Deterministic parts</b> do jobs that have a known exact rule. <b>Short-attention neurons</b> look only at a few neighbours: cheap, good for local patterns. <b>Wide-view neurons</b> can look across the whole input: expensive, used only where needed.</p>
+      <p>A router sends each piece of work to the right kind. It borrows Liquid's idea of mixing block types (section 3) and adds exact parts.</p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="6" data-h="230" aria-label="Tokens routed to a fixed rule, a local window, or a global view"></canvas>
+      <div class="ctl"><button data-t="6" data-a="play">Pause</button><button data-t="6" data-a="step">Step</button><button data-t="6" data-a="reset">Reset</button>
+        <label>local window <input type="range" id="s6" min="1" max="4" step="1" value="2"><output id="v6"></output></label></div>
+      <p class="hint">The routing rule here is a toy. Proposed design.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx"><div class="wrap">
+  <span class="kicker">Side by side</span>
+  <h2>Only one says "I'm not sure."</h2>
+  <div class="cmp-wrap"><table class="cmp">
+    <thead><tr><th>Model</th><th>Layers</th><th>Passes per answer</th><th>Guarantee</th><th>When it fails</th></tr></thead>
+    <tbody>
+    <tr><td>Regular LLM</td><td data-h="Layers">hidden from you</td><td data-h="Passes per answer">one per token</td><td data-h="Guarantee">none</td><td data-h="When it fails">a confident-sounding wrong answer</td></tr>
+    <tr><td>Transformer</td><td data-h="Layers">fixed stack</td><td data-h="Passes per answer">1 fixed pass</td><td data-h="Guarantee">none</td><td data-h="When it fails">silently; always outputs something</td></tr>
+    <tr><td>Liquid AI (LFM2)</td><td data-h="Layers">fixed hybrid stack (conv + some attention)</td><td data-h="Passes per answer">1 fixed pass</td><td data-h="Guarantee">none</td><td data-h="When it fails">silently; always outputs something</td></tr>
+    <tr class="us"><td>stasDEQ</td><td data-h="Layers">one shared core, reused</td><td data-h="Passes per answer">loops until settled</td><td data-h="Guarantee">certified: distance ≤ q/(1−q) × last move</td><td data-h="When it fails">loudly: refuses when q ≥ 1</td></tr>
+    <tr><td>stasHybrid <span class="tag prop">Proposed</span></td><td data-h="Layers">fixed rules + local + global neurons</td><td data-h="Passes per answer">depends on design</td><td data-h="Guarantee">exact for the rule-based parts; rest not yet established</td><td data-h="When it fails">not yet established</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">The benches are illustrations with small made-up numbers, not the real models.</p>
+</div></section>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div><b style="color:var(--text)">LoneMind™</b> · <span data-domain=""></span> · a personal AI agent for Android, in private alpha.</div>
+    <ul><li><a href="index.html">Home</a></li><li><a href="app.html">The app</a></li><li><a href="school.html">School</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="faq.html">FAQ</a></li></ul>
+  </div>
+</footer>
+<script type="module" src="js/bg.js"></script>
+<script src="js/sixways.js"></script>
+</body>
+</html>
