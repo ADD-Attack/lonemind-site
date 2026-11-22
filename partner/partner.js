@@ -86,10 +86,39 @@ $('login-form').addEventListener('submit', async (ev) => {
 $('logout-btn').addEventListener('click', () => sb.auth.signOut());
 $('refresh-btn').addEventListener('click', () => loadPanels());
 
+// Password setup: one-time link  /partner/?token_hash=...&type=recovery  (minted fleet-side on request).
+// The partner types his own password here; it goes straight to Supabase Auth and is never seen elsewhere.
+const qs = new URLSearchParams(location.search);
+const recoveryHash = qs.get('type') === 'recovery' ? qs.get('token_hash') : null;
+if (recoveryHash) history.replaceState(null, '', location.pathname);   // drop the token from the address bar
+let setupMode = false;
+async function startSetup() {
+  setupMode = true;
+  loginView.hidden = true; dashView.hidden = true; $('setpw-view').hidden = false;
+  const { error } = await sb.auth.verifyOtp({ token_hash: recoveryHash, type: 'recovery' });
+  if (error) $('setpw-error').textContent = 'This link has expired or was already used. Ask for a new one.';
+}
+$('setpw-form').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const err = $('setpw-error'), a = $('newpw').value, b = $('newpw2').value;
+  if (a !== b) { err.textContent = 'The two passwords differ.'; return; }
+  const { error } = await sb.auth.updateUser({ password: a });
+  if (error) { err.textContent = error.message; return; }
+  $('newpw').value = ''; $('newpw2').value = '';
+  setupMode = false; $('setpw-view').hidden = true;
+  await sb.auth.signOut();       // then sign in normally with the new password
+  err.textContent = '';
+  showLogin();
+  $('login-error').textContent = 'Password saved. Sign in with it.';
+});
+
 let current = null;
 sb.auth.onAuthStateChange((event, session) => {
   const uid = session?.user?.id || null;
   if (uid === current && event !== 'INITIAL_SESSION') return;   // token refresh: keep the view
   current = uid;
+  if (setupMode) return;
   if (session) showDash(session); else showLogin();
 });
+
+if (recoveryHash) startSetup();
