@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Partner sign-in · LoneMind</title>
+<!-- EMPTY SHELL. This file carries no dashboard data. Every panel is fetched at runtime
+     from Supabase under the signed-in partner's session and filtered by Row-Level Security.
+     The page holds only the public anon key (config.js). The service_role key never belongs here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="partner.css">
+</head>
+<body>
+<canvas id="web" aria-hidden="true"></canvas>
+
+<main id="login-view" class="login" hidden>
+  <form id="login-form" class="login-card" autocomplete="on">
+    <p class="eyebrow">LoneMind · partner</p>
+    <h1>Sign in</h1>
+    <label for="username">Username</label>
+    <input id="username" name="username" autocomplete="username" required spellcheck="false" autocapitalize="off">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required>
+    <button type="submit" id="login-btn">Sign in</button>
+    <p id="login-error" class="error" role="alert"></p>
+  </form>
+</main>
+
+<div id="dash-view" hidden>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">LoneMind · partner</p>
+      <h1 class="title">The fleet, <em>for you</em></h1>
+    </div>
+    <div class="topbar-actions">
+      <span id="who" class="who"></span>
+      <button id="refresh-btn" class="ghost" type="button">Refresh</button>
+      <button id="logout-btn" class="ghost" type="button">Sign out</button>
+    </div>
+  </header>
+  <section id="panels" class="panels" aria-live="polite"></section>
+</div>
+
+<script src="config.js"></script>
+<script type="module" src="partner.js"></script>
+</body>
+</html>
