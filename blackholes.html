@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two black-hole puzzles, on a bench</title>
+<meta name="description" content="A plain-language explainer, with live benches, of two black-hole physics results reported by Anthropic in November 2026.">
+<meta name="theme-color" content="#06080c">
+<meta name="robots" content="noindex">
+<style>
+:root{--ink:#06080c;--ink-2:#0c1017;--panel:rgba(12,16,23,.92);--line:#1f2733;--text:#eef1f5;--muted:#a9b3c1;--dim:#7d8898;--lamp:#ffb54a;--lamp-ink:#1a1206;--ok:#7fd8a6;--bad:#ff8a7a;--blue:#8fb3e0;--max:1120px;--r:14px;--sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--ink)}
+body{margin:0;font-family:var(--sans);font-size:18px;line-height:1.6;color:var(--text);overflow-x:hidden;background:radial-gradient(900px 520px at 78% -6%,rgba(255,181,74,.12),transparent 65%),radial-gradient(800px 600px at 8% 12%,rgba(143,179,224,.08),transparent 70%),var(--ink)}
+a{color:var(--lamp)}.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:var(--lamp);color:var(--lamp-ink);padding:8px 12px;z-index:9}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:18px 24px;max-width:var(--max);margin:0 auto;font-size:15px;color:var(--muted)}
+.top b{color:var(--text)}.draft{border:1px solid rgba(255,138,122,.6);color:var(--bad);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--lamp);font-weight:600;margin:0 0 18px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lamp);box-shadow:0 0 12px var(--lamp);flex:none}
+h1,h2,h3{line-height:1.08;letter-spacing:-.025em;margin:0 0 .5em;font-weight:700}
+.lede{font-size:clamp(19px,2vw,23px);color:#d6dce5;max-width:48ch;margin:0 0 16px}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--lamp);letter-spacing:.04em;margin:0 0 10px;display:block}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:normal;line-height:1.4;margin-bottom:10px}
+.sx-hero{padding:56px 24px 28px}.sx-hero h1{font-size:clamp(40px,6vw,72px);line-height:1.02;letter-spacing:-.03em;margin:.2em 0 .3em;max-width:15ch}
+.credit{max-width:70ch;font-size:16px;color:var(--muted);border-left:2px solid var(--lamp);padding-left:14px}
+.sx-idx{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:26px 0 0}
+.sx-idx a{display:block;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(12,16,23,.8);color:var(--muted);text-decoration:none;font-size:15px}
+.sx-idx a:hover{color:var(--text);border-color:#3a4656}.sx-idx b{color:var(--lamp);font-family:var(--mono);font-weight:500;margin-right:6px}
+.sx{padding:64px 0;border-top:1px solid rgba(255,255,255,.06);scroll-margin-top:8px}
+.sx h2{font-size:clamp(28px,3.4vw,42px);line-height:1.1;letter-spacing:-.02em;margin:0 0 .45em}
+.sx-cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px;align-items:start}
+.sx-text p{color:#cbd2dc;font-size:17px;margin:0 0 12px}.sx-text b{color:var(--text)}
+sup a{text-decoration:none;font-family:var(--mono);font-size:12px;padding:0 1px}
+.toy{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.toy canvas{display:block;width:100%;border-radius:10px;background:#090c12;border:1px solid #18202b;touch-action:manipulation}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:12px;font-size:15px;color:var(--muted)}
+.ctl button{min-height:44px;min-width:64px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:#121822;color:var(--text);font:600 15px var(--sans);cursor:pointer}
+.ctl button:hover{border-color:#3a4656}.ctl button[data-a=play]{background:var(--lamp);color:var(--lamp-ink);border-color:var(--lamp)}
+.ctl button:focus-visible,.ctl input:focus-visible,a:focus-visible{outline:2px solid var(--lamp);outline-offset:2px}
+.ctl label{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-height:44px;min-width:0}
+.ctl input[type=range]{flex:1;accent-color:var(--lamp);min-width:70px;height:28px}
+.ctl output{font-family:var(--mono);font-size:14px;color:var(--text);min-width:6ch;text-align:right}
+.read{white-space:pre-line;font-family:var(--mono);font-size:13.5px;line-height:1.45;color:var(--ok);margin:10px 0 0;min-height:3em}
+.hint{font-size:14px;color:var(--lamp);margin:8px 0 0}.toy-label{font-size:12.5px;color:var(--dim);margin:8px 0 0}
+.src{font-size:14px;color:var(--dim);margin-top:18px;max-width:86ch}.src a{color:var(--muted)}
+.srcs{font-size:15px;color:var(--muted);padding-left:30px;max-width:88ch}.srcs li{margin:0 0 8px}.srcs a{color:var(--text)}
+.cmp{width:100%;border-collapse:collapse;font-size:16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cmp th,.cmp td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp th{font-size:13px;font-family:var(--mono);color:var(--lamp);font-weight:500;letter-spacing:.04em}
+.cmp td:first-child{font-weight:650}.cmp tr.both td{background:rgba(255,181,74,.07)}.cmp-wrap{overflow-x:auto}
+.foot{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--dim);font-size:14px}
+@media (max-width:900px){.sx-cols{grid-template-columns:1fr}}
+@media (max-width:640px){body{font-size:17px}.wrap{padding:0 16px}.sx-hero{padding:32px 16px 20px}.sx{padding:48px 0}.toy{padding:12px}.top{padding:14px 16px}
+.cmp,.cmp tbody,.cmp tr,.cmp td{display:block}.cmp thead{display:none}.cmp tr{border-bottom:1px solid var(--line);padding:10px 0}.cmp td{border:0;padding:4px 14px}
+.cmp td[data-h]::before{content:attr(data-h);display:block;font:500 12px var(--mono);color:var(--lamp);letter-spacing:.04em}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><span><b>Research explainer</b></span><span></span></header>
+<main id="main">
+<section class="wrap sx-hero">
+  <p class="eyebrow">Explainer · seven benches you can poke</p>
+  <h1>Two black-hole puzzles, on a bench.</h1>
+  <p class="lede">An AI system reportedly closed two open questions about model universes. Here are the ideas behind them, one working toy at a time.</p>
+  <p class="credit"><b style="color:var(--text)">Source and credit.</b> The discovery and the research are Anthropic's, reported in <a href="https://www.anthropic.com/research/claude-black-hole-physics">“Claude Fable 5.2 solves two open problems in the physics of black holes”</a> (17 November 2026) <sup><a href="#s1">[1]</a></sup> and two preprints <sup><a href="#s2">[2]</a><a href="#s3">[3]</a></sup>. This independent page is not written, reviewed or endorsed by Anthropic. Its words and drawings are original. Every bench is an illustration with toy numbers.</p>
+  <ul class="sx-idx">
+    <li><a href="#p1"><b>1</b>Sum over histories</a></li><li><a href="#p2"><b>2</b>The bowl</a></li><li><a href="#p3"><b>3</b>Holography</a></li><li><a href="#p4"><b>4</b>Hawking-Page</a></li><li><a href="#p5"><b>5</b>Abrupt or smooth</a></li><li><a href="#p6"><b>6</b>The ceiling</a></li><li><a href="#p7"><b>7</b>How the agents did it</a></li><li><a href="#limits"><b>✓</b>What it shows</a></li>
+  </ul>
+</section>
+
+<section class="sx" id="p1"><div class="wrap">
+  <span class="kicker">01 · Sum over histories</span>
+  <h2>One particle, every route.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Send particles at a wall with two narrow slits, one at a time. Each lands as <b>a single dot</b>. After many dots, stripes appear, and stripes are what waves make when they overlap.<sup><a href="#s1">[1]</a></sup></p>
+      <p>Physics predicts this by adding up <b>every route</b> the particle could take. Each possible route is called a history, and some count for more than others.<sup><a href="#s1">[1]</a></sup></p>
+      <p>A quantum theory of gravity would have to go further and add up possible <b>shapes of spacetime</b>. Nobody yet knows how to do that in general.<sup><a href="#s1">[1]</a></sup></p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="1" data-h="280" aria-label="Particles pass a double slit and build a striped pattern on a screen, hit by hit"></canvas>
+      <div class="ctl"><button data-t="1" data-a="play">Pause</button><button data-t="1" data-a="step">Step</button><button data-t="1" data-a="reset">Reset</button><button data-t="1" data-a="x" id="x1">Cover one slit</button>
+        <label>slit spacing <input type="range" id="s1" min="2" max="7" step="0.5" value="4"><output id="v1"></output></label></div>
+      <p class="read" id="r1" aria-live="off"></p>
+      <p class="hint">Try this: wait for the stripes, then cover one slit. They vanish.</p>
+      <p class="toy-label">Illustration. Toy pattern, not a simulated experiment.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p2"><div class="wrap">
+  <span class="kicker">02 · Anti-de Sitter space</span>
+  <h2>A universe shaped like a bowl.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Empty space carries an energy, set by the <b>cosmological constant</b>. In our universe it is positive, and space expands faster and faster.<sup><a href="#s1">[1]</a></sup></p>
+      <p>Make it negative and you get <b>anti-de Sitter space</b>. It acts like a bowl: whatever you throw comes back. That also traps heat, so the universe can sit at a steady temperature, which makes it a clean place to study black holes.<sup><a href="#s1">[1]</a><a href="#s2">[2]</a></sup></p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="2" data-h="250" aria-label="A ball thrown across a bowl, a flat line or a hill depending on the energy of empty space"></canvas>
+      <div class="ctl"><button data-t="2" data-a="play">Pause</button><button data-t="2" data-a="step">Step</button><button data-t="2" data-a="reset">Reset</button><button data-t="2" data-a="x">Throw</button>
+        <label>empty-space energy <input type="range" id="s2" min="-1" max="1" step="0.05" value="-0.6"><output id="v2"></output></label>
+        <label>throw speed <input type="range" id="s2b" min="0.5" max="2.5" step="0.1" value="1.6"><output id="v2b"></output></label></div>
+      <p class="read" id="r2"></p>
+      <p class="hint">Try this: drag the energy above zero. The bowl flips and the ball never returns.</p>
+      <p class="toy-label">Illustration. A ball on a curve, not a solution of Einstein's equations.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p3"><div class="wrap">
+  <span class="kicker">03 · Holography</span>
+  <h2>The rim knows what's inside.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Black holes store information in proportion to their <b>surface area</b>, not their volume, as Bekenstein and Hawking found in the 1970s.<sup><a href="#s1">[1]</a></sup></p>
+      <p>In 1997, Juan Maldacena made a sharper proposal: gravity inside the bowl is <b>the same physics</b> as a quantum theory with no gravity, living on the bowl's rim. One reality, two languages.<sup><a href="#s1">[1]</a></sup></p>
+      <p>That is useful because a question too hard in one language can be easier in the other.</p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="3" data-h="290" aria-label="An object inside a disc casts a pattern on the rim, and the pattern alone recovers the object's position"></canvas>
+      <div class="ctl"><button data-t="3" data-a="play">Pause</button><button data-t="3" data-a="step">Step</button><button data-t="3" data-a="reset">Reset</button>
+        <label>distance from centre <input type="range" id="s3" min="0" max="0.92" step="0.01" value="0.55"><output id="v3"></output></label></div>
+      <p class="read" id="r3"></p>
+      <p class="hint">Try this: move the object toward the rim. Its pattern sharpens, and the ring still finds it.</p>
+      <p class="toy-label">Illustration. The ring is computed from the rim bars alone, using a simple circle formula. It is an analogy, not the real duality.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p4"><div class="wrap">
+  <span class="kicker">04 · The Hawking-Page transition</span>
+  <h2>Heat the bowl and two histories compete.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>In 1983, Hawking and Page compared two versions of a hot bowl universe: one full of <b>gas</b>, one holding a <b>black hole</b>. Whichever counts more in the sum over histories is what you would see.<sup><a href="#s1">[1]</a></sup></p>
+      <p>Cold, the gas wins. Hot, the black hole wins. The handover is <b>abrupt</b>, like water boiling.<sup><a href="#s1">[1]</a></sup></p>
+      <p>For a five-dimensional bowl of radius R, black holes first exist at T = √2/(πR) ≈ 0.450/R, and take over at T = 3/(2πR) ≈ 0.477/R.<sup><a href="#s2">[2]</a></sup> Lower on the graph means winning.</p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="4" data-h="300" aria-label="Free-energy curves for gas, small black hole and large black hole against temperature, beside the current winner in a bowl"></canvas>
+      <div class="ctl"><button data-t="4" data-a="play">Pause</button><button data-t="4" data-a="step">Step</button><button data-t="4" data-a="reset">Reset</button>
+        <label>temperature <input type="range" id="s4" min="0.42" max="0.54" step="0.001" value="0.43"><output id="v4"></output></label></div>
+      <p class="read" id="r4"></p>
+      <p class="hint">Try this: drag temperature slowly across 0.477 and watch the winner swap.</p>
+      <p class="toy-label">Illustration. Curve shapes and heights are schematic. They are drawn to cross at the two published temperatures.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p5"><div class="wrap">
+  <span class="kicker">05 · Result one · weak coupling</span>
+  <h2>Abrupt or smooth? One number decides.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Hawking and Page's method needs a big, smooth universe. At the opposite extreme, spacetime goes blurry and only the rim theory (called <b>N=4 super Yang-Mills</b>) can be calculated. It has a transition there too, but was it abrupt or smooth?<sup><a href="#s1">[1]</a></sup></p>
+      <p>In 2003, physicists showed the answer hangs on the <b>sign of one number, b</b>.<sup><a href="#s2">[2]</a><a href="#s4">[4]</a></sup> Negative means a sudden jump. Positive means a gradual change.</p>
+      <p>The preprint finds <b>b = −1.48 × 10⁻³ λ²</b>, where λ measures interaction strength. It is negative, so the transition is <b>abrupt</b>.<sup><a href="#s2">[2]</a></sup></p>
+      <p>The result covers weak coupling only. Staying abrupt all the way to strong coupling is the natural guess, but it is not shown.<sup><a href="#s1">[1]</a><a href="#s2">[2]</a></sup></p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="5" data-h="290" aria-label="A ball in an energy landscape that changes as temperature rises, with either a jump or a smooth slide"></canvas>
+      <div class="ctl"><button data-t="5" data-a="play">Pause</button><button data-t="5" data-a="step">Step</button><button data-t="5" data-a="reset">Reset</button><button data-t="5" data-a="x" id="x5">Try b &gt; 0</button>
+        <label>cold ← → hot <input type="range" id="s5" min="-0.05" max="0.09" step="0.001" value="0.09" style="direction:rtl"><output id="v5"></output></label></div>
+      <p class="read" id="r5"></p>
+      <p class="hint">Try this: let it heat and cool. The ball jumps at different points each way, like superheated water.</p>
+      <p class="toy-label">Illustration. Uses the preprint's landscape formula, with |b| exaggerated to 0.1 as in the preprint's own figure.<sup><a href="#s2">[2]</a></sup> The real |b| is far smaller. The slider shows the mass term m², which falls as temperature rises.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="p6"><div class="wrap">
+  <span class="kicker">06 · Result two · the modular bootstrap</span>
+  <h2>A ceiling that can't go lower.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>Take a simpler universe, with two space dimensions. Nobody can write down its full quantum gravity, so physicists work by elimination: <b>rule out every theory that contradicts itself</b>.<sup><a href="#s1">[1]</a></sup></p>
+      <p>On a donut-shaped spacetime, either loop can be called “time”. Both choices must give the same answer, and that forces a <b>ceiling</b> on the lightest new state: at most c/Λ, where c roughly counts the universe's building blocks.<sup><a href="#s1">[1]</a><a href="#s3">[3]</a></sup></p>
+      <p>A bigger Λ is a lower ceiling. The preprint finds the best this simplest, spin-ignoring version can do at large c:<sup><a href="#s3">[3]</a></sup></p>
+      <p style="font-family:var(--mono);color:var(--lamp);font-size:16px">Λ = 12π² / (π² + 4 arcsinh²1) ≈ 9.1266</p>
+      <p>Black holes begin at c/12, so a gap remains. This method alone <b>cannot close it</b>; that will take other ingredients.<sup><a href="#s1">[1]</a><a href="#s3">[3]</a></sup></p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="6" data-h="320" aria-label="A ceiling descends in published steps, ruling out candidate theories above it, and stops above the black-hole threshold"></canvas>
+      <div class="ctl"><button data-t="6" data-a="play">Pause</button><button data-t="6" data-a="step">Step</button><button data-t="6" data-a="reset">Reset</button>
+        <label>central charge c <input type="range" id="s6" min="24" max="2048" step="8" value="480"><output id="v6"></output></label></div>
+      <p class="read" id="r6"></p>
+      <p class="hint">Try this: step to the last rung. The shaded band is what this method can never rule out.</p>
+      <p class="toy-label">Illustration. Ceiling heights are the published values, using the leading c/Λ term only. The dots are made-up candidates, not real theories.</p>
+    </div>
+  </div>
+  <p class="src">Precise scope: the optimum holds for a broad class of test functions that includes every finite-order one, as c grows large. Reaching it relies partly on computer-certified inequalities. The preprint states its ceiling for the “lightest primary”; the post describes the same quantity as the mass of the lightest black hole.<sup><a href="#s1">[1]</a><a href="#s3">[3]</a></sup></p>
+</div></section>
+
+<section class="sx" id="p7"><div class="wrap">
+  <span class="kicker">07 · How the agents did it</span>
+  <h2>A small research group of copies.</h2>
+  <div class="sx-cols">
+    <div class="sx-text">
+      <p>This is the account in Anthropic's post.<sup><a href="#s1">[1]</a></sup> In August, researcher Hongbin Chen asked Claude for open problems. It returned <b>22 candidates</b>. Separate agents took each one and ran in the background for <b>about six weeks</b>, able to read each other's progress.</p>
+      <p>Independent checks did much of the work. The weak-coupling preprint says almost every number was obtained <b>two independent ways</b>, and names the one exception.<sup><a href="#s2">[2]</a></sup> The post says the results were formally verified in <b>Lean</b>, a computerized proof checker, in September, and that a physicist checked every main result.<sup><a href="#s1">[1]</a></sup></p>
+    </div>
+    <div class="toy">
+      <canvas data-toy="7" data-h="240" aria-label="Twenty-two candidate problems and sixty-one failed attempts, lighting up through the stages of the story"></canvas>
+      <div class="ctl"><button data-t="7" data-a="play">Pause</button><button data-t="7" data-a="step">Step</button><button data-t="7" data-a="reset">Reset</button>
+        <label>stage <input type="range" id="s7" min="0" max="6" step="1" value="0"><output id="v7"></output></label></div>
+      <p class="read" id="r7" style="min-height:5.8em"></p>
+      <p class="hint">Try this: stop at stage 3. Those 61 crosses came before the method that worked.</p>
+      <p class="toy-label">Illustration of the story's beats, not a dated timeline. The counts are from the post.<sup><a href="#s1">[1]</a></sup></p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sx" id="limits"><div class="wrap">
+  <span class="kicker">Side by side</span>
+  <h2>What this does and doesn't show.</h2>
+  <div class="cmp-wrap"><table class="cmp">
+    <thead><tr><th></th><th>Result one: abrupt or smooth</th><th>Result two: the ceiling</th></tr></thead>
+    <tbody>
+    <tr><td>The question</td><td data-h="Result one">Is the weak-coupling transition abrupt? <sup><a href="#s2">[2]</a></sup></td><td data-h="Result two">What is the best ceiling the simplest modular bootstrap can reach? <sup><a href="#s3">[3]</a></sup></td></tr>
+    <tr><td>What it shows</td><td data-h="Result one">b = −1.48 × 10⁻³ λ², so yes, abrupt <sup><a href="#s2">[2]</a></sup></td><td data-h="Result two">The best slope is Λ ≈ 9.1266, an exact formula <sup><a href="#s3">[3]</a></sup></td></tr>
+    <tr><td>What it doesn't show</td><td data-h="Result one">That the transition stays abrupt at every coupling in between <sup><a href="#s2">[2]</a></sup></td><td data-h="Result two">Which theories exist, or anything about pure gravity. It is a statement about the method <sup><a href="#s3">[3]</a></sup></td></tr>
+    <tr><td>Limits of the work</td><td data-h="Result one">Leading order in large N and to order λ² <sup><a href="#s2">[2]</a></sup></td><td data-h="Result two">Large c, spin ignored, one half computer-assisted <sup><a href="#s3">[3]</a></sup></td></tr>
+    <tr><td>Reported checks</td><td data-h="Result one">Two independent routes for almost every number, known special cases, and a separate method reaching the same result <sup><a href="#s1">[1]</a><a href="#s2">[2]</a></sup></td><td data-h="Result two">Written proofs with certified arithmetic <sup><a href="#s3">[3]</a></sup>. The post also reports Lean verification and a physicist's check <sup><a href="#s1">[1]</a></sup></td></tr>
+    <tr class="both"><td>Our universe?</td><td data-h="Both results">No. Neither result describes our universe directly. <sup><a href="#s1">[1]</a></sup></td><td data-h="Practical use">No. Neither has practical applications. <sup><a href="#s1">[1]</a></sup></td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">The benches are illustrations with small made-up numbers, not the real calculations.</p>
+</div></section>
+
+<section class="sx" id="sources"><div class="wrap">
+  <span class="kicker">Sources</span>
+  <h2>Where every claim comes from.</h2>
+  <ol class="srcs">
+    <li id="s1">Anthropic, <a href="https://www.anthropic.com/research/claude-black-hole-physics">“Claude Fable 5.2 solves two open problems in the physics of black holes”</a>, 17 November 2026.</li>
+    <li id="s2">“The Hawking-Page transition at weak coupling”, <a href="https://hexagonmath.org/2611.00175v1">hexagon:2611.00175v1</a>, contributed by Anthropic, 7 November 2026, CC BY 4.0.</li>
+    <li id="s3">“The spinless modular bootstrap at large central charge”, <a href="https://hexagonmath.org/2611.00174v1">hexagon:2611.00174v1</a>, contributed by Anthropic, 7 November 2026, CC BY 4.0.</li>
+    <li id="s4">O. Aharony, J. Marsano, S. Minwalla, K. Papadodimas and M. Van Raamsdonk, <a href="https://arxiv.org/abs/hep-th/0310285">hep-th/0310285</a> (2003), as cited in [1] and [2].</li>
+  </ol>
+  <p class="src">Earlier work named in the text (Hawking and Page; Bekenstein; Maldacena) is described as sources [1] to [3] describe it.</p>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">Independent explainer. Research credit belongs to Anthropic and the authors cited above.</div></footer>
+
+<script>
+(function(){
+'use strict';
+var $=function(i){return document.getElementById(i)};
+var C={text:'#eef1f5',muted:'#a9b3c1',dim:'#7d8898',line:'#263040',lamp:'#ffb54a',ok:'#7fd8a6',bad:'#ff8a7a',blue:'#8fb3e0'};
+var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var toys={};
+function rng(seed){var s=seed>>>0;return function(){s=(s+0x6D2B79F5)>>>0;var t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function line(g,a,b,c,d,col,w,dash){g.strokeStyle=col;g.lineWidth=w||1;g.setLineDash(dash||[]);g.beginPath();g.moveTo(a,b);g.lineTo(c,d);g.stroke();g.setLineDash([])}
+function dot(g,x,y,r,col){g.fillStyle=col;g.beginPath();g.arc(x,y,r,0,7);g.fill()}
+function text(g,s,x,y,col,size,al){g.fillStyle=col||C.muted;g.font=(size||12)+'px ui-monospace,Menlo,Consolas,monospace';g.textAlign=al||'left';g.fillText(s,x,y)}
+function val(id){return parseFloat($(id).value)}
+function def(id,o){o.id=id;o.running=!still;o.visible=true;toys[id]=o}
+
+/* 1 double slit */
+def('1',{init:function(){this.r=rng(11);this.bins=new Array(90).fill(0);this.hits=[];this.n=0;this.one=false;this.last=null;this.acc=0},
+P:function(y){var d=val('s1'),e=Math.exp(-2.4*y*y);return this.one?Math.exp(-2.4*(y+.12)*(y+.12)):e*Math.pow(Math.cos(Math.PI*d*y),2)},
+hit:function(){for(var k=0;k<400;k++){var y=this.r()*2-1;if(this.r()<this.P(y)){var b=Math.min(89,Math.floor((y+1)*45));this.bins[b]++;this.n++;this.hits.push([y,this.r()]);if(this.hits.length>2200)this.hits.shift();this.last=y;return}}},
+step:function(manual){if(manual){this.hit();return}this.acc+=this.n<60?.34:this.n<300?1.2:3;while(this.acc>=1){this.acc-=1;this.hit()}if(this.n>2000){this.bins=new Array(90).fill(0);this.hits=[];this.n=0}},
+act:function(){this.one=!this.one;$('x1').textContent=this.one?'Open both slits':'Cover one slit';this.clear()},clear:function(){this.bins=new Array(90).fill(0);this.hits=[];this.n=0;this.last=null},input:function(){this.clear()},
+draw:function(g,W,H){var bx=W*.2,sx=W*.42,sw=W*.31,hx=sx+sw+5,hw=W-hx-8,cy=H/2,amp=H/2-14,gap=.17*amp+val('s1')*2;
+text(g,'source',8,18,C.dim,11);dot(g,16,cy,5,C.lamp);
+var sl=[cy-gap,cy+gap];g.fillStyle='#3a4656';g.fillRect(bx,0,4,sl[0]-6);g.fillRect(bx,sl[0]+6,4,sl[1]-sl[0]-12);g.fillRect(bx,sl[1]+6,4,H-sl[1]-6);
+if(this.one){g.fillStyle=C.bad;g.fillRect(bx-2,sl[1]-8,8,16)}
+if(this.last!==null){var yy=cy+this.last*amp;[0,1].forEach(function(i){if(this.one&&i===1)return;line(g,16,cy,bx+2,sl[i],'rgba(255,181,74,.35)',1);line(g,bx+2,sl[i],sx,yy,'rgba(255,181,74,.35)',1)},this)}
+g.fillStyle='#0d1219';g.fillRect(sx,4,sw,H-8);var hs=this.hits;g.fillStyle='rgba(143,179,224,.75)';for(var i=0;i<hs.length;i++)g.fillRect(sx+2+hs[i][1]*(sw-5),cy+hs[i][0]*amp-.8,1.7,1.7);
+var m=Math.max.apply(null,this.bins.concat([4]));g.fillStyle=C.lamp;for(i=0;i<90;i++){var by=cy+(i/45-1)*amp,bh=Math.max(1,2*amp/90-.5);g.fillRect(hx,by,hw*this.bins[i]/m,bh)}
+$('r1').textContent='hits: '+this.n+' · '+(this.one?'one slit open: a single hump':'both slits open: '+(this.n<40?'looks random so far':this.n<200?'stripes emerging':'clear stripes'))}});
+
+/* 2 bowl */
+def('2',{init:function(){this.x=0;this.v=val('s2b');this.back=0;this.t=0;this.out=0;this.thrown=0},
+throwIt:function(){this.x=0;this.v=val('s2b');this.back=0;this.out=0},
+step:function(){var L=val('s2'),dt=.028;for(var i=0;i<2;i++){this.v+=4*L*this.x*dt;var o=this.x;this.x+=this.v*dt;if(o*this.x<0)this.back++;}
+if(L>=-.001&&Math.abs(this.x)>1.75){this.out++;if(this.out>45)this.throwIt()}},act:function(){this.throwIt()},input:function(e){if(e&&e.target.id==='s2b')this.throwIt();else{this.throwIt()}},
+draw:function(g,W,H){var L=val('s2'),cx=W/2,sc=W/3.6,base=H*.56,f=function(x){return base+L*x*x*H*.26};
+g.strokeStyle=L<-.02?C.blue:L>.02?C.bad:C.muted;g.lineWidth=2.4;g.beginPath();for(var i=0;i<=120;i++){var x=-1.7+3.4*i/120,X=cx+x*sc,Y=f(x);i?g.lineTo(X,Y):g.moveTo(X,Y)}g.stroke();
+line(g,cx,base-8,cx,base+8,C.dim,1);
+var bx=this.x;if(Math.abs(bx)<1.7)dot(g,cx+bx*sc,f(bx)-9,8,C.lamp);
+text(g,L<-.02?'negative: a bowl':L>.02?'positive: a hill':'zero: flat',10,20,C.muted,12);
+$('r2').textContent=L<-.02?(Math.abs(bx)>=1.7?'out of view, but it is coming back':'came back past the centre '+this.back+' times'):L>.02?(this.back>0?'rolled away':'pushed outward: it never returns'):'keeps going in a straight line'}});
+
+/* 3 holography */
+def('3',{init:function(){this.th=.8},step:function(m){this.th+=m?.25:.012},input:function(){},
+draw:function(g,W,H){var cx=W/2,cy=H/2,R=Math.min(W,H)/2-44,r=val('s3'),th=this.th,N=96,sx=0,sy=0,Pm=(1+r)/(1-r);
+g.fillStyle='#0f1520';g.beginPath();g.arc(cx,cy,R,0,7);g.fill();g.strokeStyle=C.blue;g.lineWidth=1.6;g.beginPath();g.arc(cx,cy,R,0,7);g.stroke();
+for(var i=0;i<N;i++){var a=i/N*Math.PI*2,P=(1-r*r)/(1+r*r-2*r*Math.cos(a-th));sx+=P*Math.cos(a)/N;sy+=P*Math.sin(a)/N;var len=4+34*Math.pow(P/Pm,.75);line(g,cx+Math.cos(a)*(R+2),cy+Math.sin(a)*(R+2),cx+Math.cos(a)*(R+2+len),cy+Math.sin(a)*(R+2+len),P/Pm>.5?C.lamp:'#5d7291',2)}
+var ox=cx+r*R*Math.cos(th),oy=cy+r*R*Math.sin(th);dot(g,ox,oy,7,C.lamp);
+g.strokeStyle=C.ok;g.lineWidth=2;g.beginPath();g.arc(cx+sx*R,cy+sy*R,12,0,7);g.stroke();
+text(g,'inside',cx,cy+R*.82,C.dim,11,'center');text(g,'rim',8,18,C.blue,12);
+var e=Math.hypot(sx-r*Math.cos(th),sy-r*Math.sin(th));$('r3').textContent='amber dot: the object · green ring: position recovered from the '+N+' rim bars · error '+e.toFixed(4)}});
+
+/* 4 Hawking-Page */
+var TMIN=Math.SQRT2/Math.PI,THP=3/(2*Math.PI);
+function rOf(T,large){var D=4*Math.PI*Math.PI*T*T-8;if(D<0)return null;var q=Math.sqrt(D);return(2*Math.PI*T+(large?q:-q))/4}
+def('4',{init:function(){this.dir=1;$('s4').value=.43},
+step:function(m){var s=$('s4'),v=val('s4')+this.dir*(m?.004:.00035);if(v>=.54){v=.54;this.dir=-1}if(v<=.42){v=.42;this.dir=1}s.value=v.toFixed(3)},input:function(){},
+draw:function(g,W,H){var T=val('s4'),gx=W<470?10:W*.37,gw=W-gx-10,top=W<470?126:14,bot=H-30,xT=function(t){return gx+(t-.42)/.12*gw},yF=function(f){return top+(.32-f)/1.12*(bot-top)};
+var big=T>=TMIN?rOf(T,true):null,Fb=big?big*big*(1-big*big):null,bh=Fb!==null&&T>THP,R=W<470?46:Math.min(W*.14,62),cx=W<470?W/2:W*.185,cy=W<470?56:H/2-10;
+var bowl=g.createRadialGradient(cx,cy,R*.1,cx,cy,R);bowl.addColorStop(0,'#172131');bowl.addColorStop(1,'#0d121b');g.fillStyle=bowl;g.beginPath();g.arc(cx,cy,R,0,7);g.fill();g.strokeStyle=C.blue;g.lineWidth=1.5;g.stroke();
+if(bh){var rr=R*Math.min(.68,.28+big*.28);dot(g,cx,cy,rr+3,'rgba(255,181,74,.55)');dot(g,cx,cy,rr,'#000')}else{var q=rng(5),ph=performance.now()/650;for(var i=0;i<32;i++){var a=q()*7,d=Math.sqrt(q())*R*.9;dot(g,cx+Math.cos(a+ph*(.2+q()*.3))*d,cy+Math.sin(a+ph*.25)*d,1.9,C.blue)}}
+text(g,bh?'black hole':'gas',cx,cy+R+15,bh?C.lamp:C.blue,12,'center');
+g.save();g.beginPath();g.rect(gx,top,gw,bot-top);g.clip();
+line(g,gx,yF(0),gx+gw,yF(0),C.blue,2.2);
+var pl=function(lg,col){g.strokeStyle=col;g.lineWidth=2.2;if(!lg)g.setLineDash([5,4]);g.beginPath();var st=0;for(var t=TMIN;t<=.54;t+=.0006){var r=rOf(t,lg);if(r===null)continue;var f=r*r*(1-r*r),X=xT(t),Y=yF(f);st?g.lineTo(X,Y):g.moveTo(X,Y);st=1}g.stroke();g.setLineDash([])};
+pl(true,C.lamp);pl(false,C.dim);g.restore();
+line(g,gx,bot,gx+gw,bot,C.line,1);line(g,xT(TMIN),top,xT(TMIN),bot,C.line,1,[3,3]);line(g,xT(THP),top,xT(THP),bot,C.bad,1.2,[4,3]);line(g,xT(T),top,xT(T),bot,C.text,1);
+text(g,'.450',xT(TMIN)-3,bot+14,C.dim,10,'right');text(g,'.477',xT(THP)+3,bot+14,C.bad,10);
+text(g,'gas',gx+4,yF(0)-5,C.blue,11);var lr=rOf(.505,true);text(g,'large BH',xT(.505)-7,yF(lr*lr*(1-lr*lr))+4,C.lamp,11,'right');text(g,'small BH',xT(.50),yF(.14)-5,C.dim,11);
+dot(g,xT(T),yF(0),4,bh?C.dim:C.blue);if(Fb!==null)dot(g,xT(T),yF(Fb),4,bh?C.lamp:C.dim);
+$('r4').textContent='T = '+T.toFixed(3)+'/R · '+(T<TMIN?'no black hole possible: gas wins':T<=THP?'black holes exist, but gas still wins':'black hole wins; gas can linger, superheated')}});
+
+/* 5 landscape */
+function S5(u,m,b){var V=u<=.5?u*u:.25-.5*Math.log(2*(1-u));return V-u*u+m*u*u+b*u*u*u*u}
+function dS5(u,m,b){var e=1e-5;return(S5(u+e,m,b)-S5(Math.max(0,u-e),m,b))/(u+e-Math.max(0,u-e))}
+def('5',{init:function(){this.b=-.1;this.u=0;this.dir=-1;$('s5').value=.09;$('x5').textContent='Try b > 0'},
+relax:function(n){var m=val('s5');for(var i=0;i<n;i++){if(m<0&&this.u<.002)this.u=.002;var d=dS5(this.u,m,this.b);this.u=Math.max(0,Math.min(.96,this.u-.12*d))}},
+step:function(mn){var s=$('s5'),v=val('s5')+this.dir*(mn?.004:.0007);if(v<=-.05){v=-.05;this.dir=1}if(v>=.09){v=.09;this.dir=-1}s.value=v.toFixed(3);this.relax(mn?260:60)},
+act:function(){this.b=-this.b;this.u=0;$('x5').textContent=this.b<0?'Try b > 0':'Back to b < 0 (published)'},input:function(){this.relax(260)},
+draw:function(g,W,H){var m=val('s5'),b=this.b,pad=34,xU=function(u){return pad+u/.9*(W-pad-10)},lo=1e9,hi=-1e9,pts=[],best=0,bv=0,i;
+for(i=0;i<=240;i++){var u=.9*i/240,v=S5(u,m,b);pts.push([u,v]);if(v<lo)lo=v;if(v>hi)hi=v;if(v<bv-1e-9){bv=v;best=u}}
+lo=Math.min(lo,-.03);hi=Math.min(Math.max(hi,.03),.12);var y=function(v){return 22+(hi-v)/(hi-lo)*(H-54)};
+line(g,pad,y(0),W-8,y(0),C.line,1);line(g,xU(.5),14,xU(.5),H-26,C.line,1,[3,3]);
+g.strokeStyle=b<0?C.lamp:C.blue;g.lineWidth=2.4;g.beginPath();pts.forEach(function(p,j){var Y=Math.min(H-20,y(p[1]));j?g.lineTo(xU(p[0]),Y):g.moveTo(xU(p[0]),Y)});g.stroke();
+dot(g,xU(this.u),Math.min(H-20,y(S5(this.u,m,b)))-7,7,C.text);dot(g,xU(best),Math.min(H-20,y(bv)),3,C.ok);
+text(g,'confined',pad,H-9,C.dim,11);text(g,'deconfined →',W-10,H-9,C.dim,11,'right');text(g,'u = ½',xU(.5)+4,H-30,C.dim,10);text(g,'energy',8,14,C.dim,11);
+var st=b<0?(best>.25?(this.u<.25?'ball stuck in the old valley (superheated)':'ball in the new, lower valley'):(this.u>.25?'ball stuck in the old valley (supercooled)':'ball at the only stable or lowest valley')):(this.u>.02?'sliding smoothly outward':'at rest in the centre');
+$('r5').textContent='b '+(b<0?'< 0 (the published sign)':'> 0 (the rejected case)')+' · m² = '+m.toFixed(3)+' · u = '+this.u.toFixed(3)+'\n'+st}});
+
+/* 6 ceiling */
+var RUNGS=[{L:6,n:'Hellerman, proved',col:C.muted},{L:8.503,n:'analytic bound, proved',col:C.blue},{L:9.08,n:'numerical extrapolation, not a proof',col:C.dim},{L:12*Math.PI*Math.PI/(Math.PI*Math.PI+4*Math.pow(Math.asinh(1),2)),n:'exact optimum, this preprint',col:C.lamp}];
+def('6',{init:function(){this.k=0;this.t=0;var r=rng(29);this.dots=[];for(var i=0;i<80;i++)this.dots.push([.03+r()*.94,1/11.9+r()*(1/5.4-1/11.9)])},
+step:function(m){if(m){this.k=(this.k+1)%RUNGS.length;this.t=0;return}if(++this.t>95){this.t=0;this.k=(this.k+1)%RUNGS.length}},input:function(){},
+draw:function(g,W,H){var top=1/5.3,bot=1/12.8,left=56,y=function(v){return 10+(top-v)/(top-bot)*(H-30)},R=RUNGS[this.k],ceil=1/R.L,thr=1/12,fin=1/RUNGS[3].L,c=val('s6'),dead=0;
+if(this.k===3){g.fillStyle='rgba(127,216,166,.12)';g.fillRect(left,y(fin),W-left-6,y(thr)-y(fin));text(g,'out of reach for this method',W-10,(y(fin)+y(thr))/2+4,C.ok,11,'right')}
+this.dots.forEach(function(d){var X=left+d[0]*(W-left-10),Y=y(d[1]);if(d[1]>ceil){dead++;line(g,X-3,Y-3,X+3,Y+3,'rgba(255,138,122,.65)',1.2);line(g,X+3,Y-3,X-3,Y+3,'rgba(255,138,122,.65)',1.2)}else dot(g,X,Y,2.8,C.blue)});
+RUNGS.forEach(function(q){var Y=y(1/q.L);line(g,left,Y,W-6,Y,q===R?q.col:'#222b38',q===R?2.4:1,q.L===9.08?[5,4]:[]);if(q===R||q.L<9)text(g,'c/'+(q.L>9.12&&q.L<9.13?'9.1266':q.L),3,Y+4,q===R?q.col:C.dim,10)});
+line(g,left,y(thr),W-6,y(thr),C.bad,1.5,[3,3]);text(g,'c/12',3,y(thr)+13,C.bad,10);text(g,'black holes begin',W-10,y(thr)+14,C.bad,11,'right');
+$('r6').textContent='ceiling c/'+(this.k===3?'9.1266':R.L)+' · '+R.n+'\nat c = '+c+', lightest new state ≤ about '+(c/R.L).toFixed(1)+' · '+dead+' of 80 toy candidates ruled out'}});
+
+/* 7 agents */
+var STAGES=['Asked for open problems, Claude returns 22 candidates.','Separate agents take each candidate and run for about six weeks, reading each other\'s progress.','An earlier agent tries the bootstrap problem in 61 parallel attempts. All fail.','The assigned agent spots a pattern in the numerics. Another, working on sphere packing, turns it into a method that reproduces a result recently proved by an OpenAI model.','The method solves the bootstrap problem. Two other agents independently reach the same answer.','On Hawking-Page, a physicist who separately used Claude reaches the same answer by a different method.','In September, the post reports, the results are verified in Lean. Claude writes the paper and a physicist checks every main result.'];
+def('7',{init:function(){this.t=0;$('s7').value=0},step:function(m){var s=$('s7');if(m){s.value=(+s.value+1)%7;this.t=0;return}if(++this.t>120){this.t=0;s.value=(+s.value+1)%7}},input:function(){this.t=0},
+draw:function(g,W,H){var st=+$('s7').value,cols=11,cw=(W-24)/cols,i;text(g,'22 candidate problems',12,18,C.dim,11);
+for(i=0;i<22;i++){var X=12+cw*(i%cols+.5),Y=38+Math.floor(i/cols)*23,solved=(i===4&&st>=4)||(i===15&&st>=5),act=st>=1;dot(g,X,Y,7,solved?C.lamp:act?'#4f6786':'#27313f');if(solved)dot(g,X,Y,3,'#1a1206')}
+text(g,'61 parallel attempts at the bootstrap',12,104,st>=2?C.dim:'#39424f',11);var mc=Math.min(31,Math.floor((W-24)/10)),sp=(W-24)/mc;for(i=0;i<61;i++){var x=12+sp*(i%mc+.5),yy=118+Math.floor(i/mc)*11*1,cl=st>=2?'rgba(255,138,122,.6)':'#222a35';line(g,x-3,yy-3,x+3,yy+3,cl,1);line(g,x+3,yy-3,x-3,yy+3,cl,1)}
+var by=H-44;text(g,'checks',12,by-8,C.dim,11);['2nd route','independent','Lean (post)','physicist'].forEach(function(n,j){var on=(j===0&&st>=4)||(j===1&&st>=5)||(j>=2&&st>=6),bw=(W-24)/4-4,bx=12+j*(bw+5);g.fillStyle=on?'rgba(127,216,166,.16)':'#111720';g.fillRect(bx,by,bw,30);g.strokeStyle=on?C.ok:C.line;g.lineWidth=1;g.strokeRect(bx,by,bw,30);text(g,n,bx+bw/2,by+19,on?C.ok:C.dim,W<430?9:11,'center')});
+$('r7').textContent=(st+1)+' of 7 · '+STAGES[st]}});
+
+/* shared bench machinery */
+var fmt={'1':function(v){return(+v).toFixed(1)},'2':function(v){return(+v).toFixed(2)},'2b':function(v){return(+v).toFixed(1)},'3':function(v){return(+v).toFixed(2)},'4':function(v){return(+v).toFixed(3)+'/R'},'5':function(v){return(+v).toFixed(3)},'6':function(v){return v},'7':function(v){return(+v+1)+'/7'}};
+function outputs(){Object.keys(fmt).forEach(function(k){var e=$('s'+k),o=$('v'+k);if(e&&o)o.textContent=fmt[k](e.value)})}
+function render(o){var w=Math.max(10,o.cv.clientWidth),h=o.h,d=Math.min(2,window.devicePixelRatio||1);if(o.w!==w||o.dpr!==d){o.w=w;o.dpr=d;o.cv.width=w*d;o.cv.height=h*d;o.cv.style.height=h+'px'}var g=o.g;g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);o.draw(g,w,h);outputs()}
+function setBtn(o){var b=document.querySelector('[data-t="'+o.id+'"][data-a=play]');b.textContent=o.running?'Pause':'Play';b.setAttribute('aria-pressed',o.running?'false':'true')}
+document.querySelectorAll('canvas[data-toy]').forEach(function(c){var o=toys[c.dataset.toy];o.cv=c;o.h=+c.dataset.h;o.g=c.getContext('2d');o.init();setBtn(o)});
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('button[data-t]');if(!b)return;var o=toys[b.dataset.t],a=b.dataset.a;
+if(a==='play'){o.running=!o.running;setBtn(o)}else if(a==='step'){o.running=false;setBtn(o);o.step(true)}else if(a==='reset'){if(o.id==='1'&&o.one){$('x1').textContent='Cover one slit'}o.init()}else if(a==='x'){o.act()}render(o)});
+document.querySelectorAll('input[type=range]').forEach(function(s){s.addEventListener('input',function(e){var id=s.id.replace(/^s/,'').replace(/b$/,''),o=toys[id];if(o.input)o.input(e);render(o)})});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){toys[e.target.dataset.toy].visible=e.isIntersecting})},{rootMargin:'100px'});document.querySelectorAll('canvas[data-toy]').forEach(function(c){io.observe(c)})}
+var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){Object.keys(toys).forEach(function(k){render(toys[k])})},80)});
+Object.keys(toys).forEach(function(k){render(toys[k])});
+(function loop(){Object.keys(toys).forEach(function(k){var o=toys[k];if(o.running&&o.visible&&!document.hidden){o.step(false);render(o)}});requestAnimationFrame(loop)})();
+window.__benches=toys;
+})();
+</script>
+</body>
+</html>
