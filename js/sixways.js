@@ -144,7 +144,8 @@ const left={},auto={},tall={},big={},card={};
   const b=document.createElement('button');b.type='button';b.className='sw-big';b.hidden=true;b.setAttribute('aria-label','Play: '+c.getAttribute('aria-label'));b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l16 9-16 9z"/></svg>';
   b.addEventListener('click',()=>{start(n);const k=document.querySelector(`button[data-t="${n}"][data-a=play]`);if(k)k.focus({preventScroll:true})});w.appendChild(b);big[n]=b;card[n]=c.closest('.toy')})})();
 function sync(n){big[n].hidden=run[n]||!(auto[n]||still||tall[n])}
-function start(n){auto[n]=true;if(!(left[n]>0)){if(n==5)toys[5].build();else toys[n].init();left[n]=PLAY[n]}run[n]=true;last[n]=0;label(n);sync(n);redraw(n)}
+function start(n){auto[n]=true;if(n==5)toys[5].build();else toys[n].init();left[n]=PLAY[n];run[n]=true;last[n]=0;label(n);sync(n);redraw(n)}
+function resume(n){auto[n]=true;left[n]=Infinity;run[n]=true;last[n]=0;label(n);sync(n)}
 function stop(n){run[n]=false;label(n);sync(n)}
 // Auto-play fires only when the whole card is inside the visible viewport. A card that cannot fit waits for the big button.
 function watch(){if(still)return;const v=window.visualViewport,L=v?v.offsetLeft:0,T=v?v.offsetTop:0,W=v?v.width:window.innerWidth,H=v?v.height:window.innerHeight;
@@ -155,7 +156,7 @@ size();
 for(const n in toys)for(let i=0;i<(n==4?80:n==35?30:6);i++)toys[n].step();
 function label(n){const b=document.querySelector(`button[data-t="${n}"][data-a=play]`);if(b)b.textContent=run[n]?'Pause':'Play'}
 document.querySelectorAll('.ctl button').forEach(b=>b.addEventListener('click',()=>{const n=b.dataset.t,a=b.dataset.a;
- if(a=='play'){if(run[n])stop(n);else start(n)}if(a=='step')toys[n].step();if(a=='reset'){toys[n].init();if(n=='5'){}left[n]=run[n]?PLAY[n]:0}redraw(n)}));
+ if(a=='play'){if(run[n])stop(n);else resume(n)}if(a=='step')toys[n].step();if(a=='reset'){toys[n].init();if(n=='5'){}if(run[n]&&left[n]!==Infinity)left[n]=PLAY[n]}redraw(n)}));
 document.querySelectorAll('.ctl input[type=range]').forEach(s=>s.addEventListener('input',()=>redraw(s.id.slice(1))));
 document.querySelectorAll('canvas[data-toy]').forEach(c=>c.addEventListener('click',()=>{const n=c.dataset.toy;toys[n].step();redraw(n)}));
 for(const n in toys){label(n);sync(n)}
