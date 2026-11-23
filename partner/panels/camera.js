@@ -60,6 +60,7 @@ export function mount(body, { sb, cfg }) {
   function setState(s, text, extra = {}) {
     state = s; stage.dataset.state = s; msg.textContent = text || '';
     badge.textContent = ({ live: 'LIVE', stalled: 'STALLED', offline: 'OFFLINE', connecting: 'CONNECTING', reconnecting: 'RECONNECTING', paused: 'PAUSED', error: 'UNAVAILABLE', ended: 'SIGNED OUT' })[s] || s;
+    if (s === 'live' && source === 'camera' && !(cfg.camera && cfg.camera.verified === true)) badge.textContent = 'LIVE · UNVERIFIED';
     badge.className = `cam-badge cam-${s}`;
     if (extra.stat !== undefined) stat.textContent = extra.stat;
   }
