@@ -123,3 +123,22 @@ select { background: var(--ink-2); color: var(--text); border: 1px solid var(--l
 .uh-chk { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; font-size: 11px; }
 .chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; background: var(--ink-2); } .chip.ok { border-color: var(--ok); } .chip.flag { border-color: var(--bad); border-width: 2px; }
 table.grid { min-width: 520px; } table.grid td.tid { word-break: normal; overflow-wrap: anywhere; min-width: 160px; }
+
+/* ---- camera tab ---- */
+.panel-camera { grid-column: 1 / -1; }
+.cam-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
+.cam-spacer { flex: 1; }
+.cam-badge { font: 600 11px var(--mono); letter-spacing: .08em; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.cam-badge.cam-live { color: #07140d; background: var(--ok); border-color: var(--ok); }
+.cam-badge.cam-stalled, .cam-badge.cam-reconnecting, .cam-badge.cam-connecting { color: #1a1406; background: var(--warn); border-color: var(--warn); }
+.cam-badge.cam-offline, .cam-badge.cam-error, .cam-badge.cam-ended { color: #1d0a07; background: var(--bad); border-color: var(--bad); }
+.cam-stat { font: 12px var(--mono); color: var(--muted); }
+.cam-stage { position: relative; width: 100%; max-width: 960px; aspect-ratio: 16 / 9; margin: 0 auto; background: #000; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.cam-stage.cam-test { border-color: var(--warn); }
+.cam-canvas { width: 100%; height: 100%; object-fit: contain; display: block; transition: filter .2s; }
+.cam-stage[data-state="stalled"] .cam-canvas, .cam-stage[data-state="reconnecting"] .cam-canvas, .cam-stage[data-state="paused"] .cam-canvas { filter: grayscale(.8) brightness(.45); }
+.cam-stage[data-state="offline"] .cam-canvas, .cam-stage[data-state="error"] .cam-canvas, .cam-stage[data-state="ended"] .cam-canvas, .cam-stage[data-state="connecting"] .cam-canvas { filter: brightness(.12); }
+.cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; text-align: center; font: 600 15px var(--sans); color: #fff; text-shadow: 0 1px 4px #000; pointer-events: none; }
+.cam-msg:empty { display: none; }
+.cam-note { font-size: 12px; color: var(--muted); margin: 10px auto 0; max-width: 960px; }
+@media (max-width: 640px) { .cam-bar .ghost { padding: 6px 10px; } .cam-msg { font-size: 13px; } }

@@ -40,6 +40,12 @@ const fetchRow = (host) => { if (!rowCache.has(host)) rowCache.set(host, sb.from
 async function loadPanel(id, slot) {
   try {
     const mod = await import(`./panels/${id}.js`);
+    if (mod.standalone) {            // live panels with no stored row (camera): they open their own authenticated connection
+      const body = h('div', { class: 'panel-body' });
+      slot.replaceChildren(h('header', { class: 'panel-head' }, h('h2', {}, mod.title)), body);
+      slot.classList.remove('loading'); mod.mount(body, { sb, cfg });
+      return;
+    }
     const host = (cfg.packed || {})[id] || id;        // packed panels ride inside an admitted row's _ext
     const { data: row, error } = await fetchRow(host);
     if (error) throw error;

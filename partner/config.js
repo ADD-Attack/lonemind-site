@@ -20,7 +20,11 @@ window.PARTNER_CONFIG = {
     { id: 'pulse', title: 'Pulse', panels: ['pulse'] },
     { id: 'memory', title: 'Memory', panels: ['memory'] },
     { id: 'socials', title: 'Socials', panels: ['socials'] },
+    { id: 'camera', title: 'Camera', panels: ['camera'] },
   ],
+  // Camera relay: the web address of the partner-only video relay. It refuses everything without the partner's sign-in token.
+  // This is NOT the camera's address; the camera's address and any stream credential live only on the relay host.
+  camera: { relayUrl: 'https://abraham.tail629694.ts.net:10000' },
   // Panels stored inside another row's _ext (the table's CHECK admits five names only).
   packed: { usage_hours: 'usage', tokens: 'usage', hosts: 'usage', work: 'partner_items', lanes: 'partner_items', queue: 'partner_items',
             board: 'latest_board', pulse: 'latest_board', memory: 'open_orders', socials: 'open_orders' },
