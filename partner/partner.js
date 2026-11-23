@@ -53,7 +53,7 @@ async function loadPanel(id, slot) {
     if (row && host !== id) data = row.payload && row.payload._ext && row.payload._ext[id] ? { payload: row.payload._ext[id], updated_at: row.updated_at } : null;
     const body = h('div', { class: 'panel-body' });
     if (!data) body.append(h('p', { class: 'muted' }, 'No data published yet.'));
-    else mod.render(data.payload, body);
+    else mod.render(data.payload, body, { sb });
     slot.replaceChildren(
       h('header', { class: 'panel-head' },
         h('h2', {}, mod.title),
