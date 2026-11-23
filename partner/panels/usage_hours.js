@@ -11,8 +11,8 @@ const dayName = (d) => new Date(d + 'T12:00:00').toLocaleDateString([], { weekda
 const hh = (iso) => iso.slice(11, 13).replace(/^0(?=\d)/, '');
 
 export function render(p, el) {
-  const days = (p.days || []).filter((d) => d.hours);
-  if (!days.length) { el.append(h('p', { class: 'muted' }, 'No hourly data published yet.')); return; }
+  const days = (p.days || []);   // all days, like the local picker; days without hours show the collector's own empty message
+  if (!days.some((d) => d.hours)) { el.append(h('p', { class: 'muted' }, 'No hourly data published yet.')); return; }
   const byDate = Object.fromEntries(days.map((d) => [d.date, d]));
   const dates = days.map((d) => d.date).sort();
   const today = dates[dates.length - 1];
@@ -49,10 +49,12 @@ export function render(p, el) {
 
     // series: columns are hours of one day, or whole days
     let cols;
+    const hourDays = dates.filter((d) => byDate[d].hours).slice(-14);   // local Day view = newest 14 days
+    const noHours = S.gran === 'hour' && !byDate[S.date].hours;
     if (S.gran === 'hour') {
-      cols = byDate[S.date].hours.map((hr) => ({ label: hh(hr.start), tip: `${dayName(S.date)} ${hh(hr.start)}:00`, rows: hr.rows.filter(keep), hr }));
+      cols = (byDate[S.date].hours || []).map((hr) => ({ label: hh(hr.start), tip: `${dayName(S.date)} ${hh(hr.start)}:00`, rows: hr.rows.filter(keep), hr }));
     } else {
-      cols = dates.map((d) => ({ label: d.slice(8), tip: dayName(d), rows: byDate[d].hours.flatMap((x) => x.rows).filter(keep), date: d }));
+      cols = hourDays.map((d) => ({ label: d.slice(8), tip: dayName(d), rows: byDate[d].hours.flatMap((x) => x.rows).filter(keep), date: d }));
     }
     const tot = {};
     cols.forEach((c) => c.rows.forEach((r) => { tot[keyOf(r)] = (tot[keyOf(r)] || 0) + val(r, S.metric); }));
@@ -88,14 +90,14 @@ export function render(p, el) {
     const chk = h('div', { class: 'uh-chk' });
     const dd = byDate[S.gran === 'hour' ? S.date : today];
     const sums = {};
-    dd.hours.forEach((x) => x.rows.forEach((r) => { const a = sums[r[2]] || (sums[r[2]] = [0, 0, 0, 0]); a[0] += r[3]; a[1] += r[4]; a[2] += r[5]; a[3] += r[6]; }));
+    (dd.hours || []).forEach((x) => x.rows.forEach((r) => { const a = sums[r[2]] || (sums[r[2]] = [0, 0, 0, 0]); a[0] += r[3]; a[1] += r[4]; a[2] += r[5]; a[3] += r[6]; }));
     Object.keys({ ...sums, ...(dd.day_rows || {}) }).forEach((pid) => {
       const a = sums[pid] || [0, 0, 0, 0], b = (dd.day_rows || {})[pid] || [0, 0, 0, 0];
       const ok = a.every((v, i) => v === b[i]), lab = (p.profiles.find((x) => x.id === pid) || { label: pid }).label;
       const tot = (z) => z.reduce((u, v) => u + v, 0);
       chk.append(h('span', { class: `chip ${ok ? 'ok' : 'flag'}`, role: ok ? null : 'alert' }, ok ? `${lab}: Σ hours = day rows ${nf.format(tot(b))}` : `${lab}: Σ hours ${nf.format(tot(a))} ≠ day rows ${nf.format(tot(b))}`));
     });
-    const kids = [controls, nav, note, chk, chart, legend, stamp];
+    const kids = noHours ? [controls, nav, note, h('p', { class: 'muted emptyday' }, 'The collector sent no hours for this day.'), stamp] : [controls, nav, note, chk, chart, legend, stamp];
     if (S.gran === 'hour' && S.hour != null && cols[S.hour]) kids.push(hourTable(cols[S.hour]));
     root.replaceChildren(...kids.filter(Boolean));
   }
