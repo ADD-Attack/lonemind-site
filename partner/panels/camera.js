@@ -66,7 +66,7 @@ export function mount(body, { sb, cfg }) {
   function sourceNote() {
     note.textContent = source === 'synthetic-test'
       ? 'TEST STREAM. This is a synthetic picture from the relay, not the camera. The real camera connection is unverified until our own firmware boots on the camera.'
-      : source === 'camera' ? 'Source: LoneMind camera (own firmware), local network to relay, then to this page. Not routed through any Wyze service.' : '';
+      : source === 'camera' ? 'Source: the camera, via the relay on our own network, then to this page. Not routed through any Wyze service.' + (cfg.camera && cfg.camera.verified === true ? '' : ' UNVERIFIED: this connection has not yet been confirmed on our own firmware.') : '';
     stage.classList.toggle('cam-test', source === 'synthetic-test');
   }
   const gone = () => dead || !body.isConnected;
