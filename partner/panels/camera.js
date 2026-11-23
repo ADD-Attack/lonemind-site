@@ -132,7 +132,7 @@ export function mount(body, { sb, cfg }) {
       const failedFast = !lastFrame && attempt >= 2;
       attempt++;
       const wait = BACKOFF[Math.min(attempt - 1, BACKOFF.length - 1)];
-      setState(failedFast ? 'error' : 'reconnecting', failedFast ? `Can't reach the camera relay. Retrying in ${Math.round(wait / 1000)} s…` : `Connection lost. Reconnecting in ${Math.round(wait / 1000)} s…`, { stat: '' });
+      setState(failedFast ? 'error' : 'reconnecting', failedFast ? `Can't reach the camera relay. Retrying in ${Math.round(wait / 1000)} s… (This device must be on the Tailscale network, and the browser must allow local network access for this site.)` : `Connection lost. Reconnecting in ${Math.round(wait / 1000)} s…`, { stat: '' });
       retryTimer = setTimeout(connect, wait);
     }
   }
