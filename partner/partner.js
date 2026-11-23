@@ -34,16 +34,17 @@ async function showDash(session) {
   await loadPanels();
 }
 
+const rowCache = new Map();           // one RLS query per row per load, shared by panels packed in the same row
+const fetchRow = (host) => { if (!rowCache.has(host)) rowCache.set(host, sb.from('panel_data').select('panel,payload,updated_at,seq').eq('panel', host).maybeSingle()); return rowCache.get(host); };
 // One authenticated RLS query per panel. A panel failing never blocks the others.
 async function loadPanel(id, slot) {
   try {
     const mod = await import(`./panels/${id}.js`);
-    const { data, error } = await sb
-      .from('panel_data')
-      .select('panel,payload,updated_at,seq')
-      .eq('panel', id)
-      .maybeSingle();
+    const host = (cfg.packed || {})[id] || id;        // packed panels ride inside an admitted row's _ext
+    const { data: row, error } = await fetchRow(host);
     if (error) throw error;
+    let data = row;
+    if (row && host !== id) data = row.payload && row.payload._ext && row.payload._ext[id] ? { payload: row.payload._ext[id], updated_at: row.updated_at } : null;
     const body = h('div', { class: 'panel-body' });
     if (!data) body.append(h('p', { class: 'muted' }, 'No data published yet.'));
     else mod.render(data.payload, body);
@@ -61,9 +62,22 @@ async function loadPanel(id, slot) {
   }
 }
 
+const tabs = cfg.tabs || [{ id: 'all', title: 'All', panels: cfg.panels }];
+let activeTab = (location.hash || '').slice(1);
+if (!tabs.some((t) => t.id === activeTab)) activeTab = tabs[0].id;
+function drawTabs() {
+  const nav = $('tabs');
+  nav.replaceChildren(...tabs.map((t) => {
+    const b = h('button', { type: 'button', role: 'tab', 'aria-selected': String(t.id === activeTab) }, t.title);
+    b.addEventListener('click', () => { activeTab = t.id; history.replaceState(null, '', '#' + t.id); drawTabs(); loadPanels(); });
+    return b;
+  }));
+}
 async function loadPanels() {
-  panelsEl.replaceChildren();
-  await Promise.all(cfg.panels.map((id) => {
+  drawTabs();
+  panelsEl.replaceChildren(); rowCache.clear();
+  const ids = tabs.find((t) => t.id === activeTab).panels;
+  await Promise.all(ids.map((id) => {
     const slot = h('article', { class: `panel panel-${id} loading`, 'data-panel': id },
       h('p', { class: 'muted' }, 'Loading…'));
     panelsEl.append(slot);
