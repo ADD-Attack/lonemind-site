@@ -135,20 +135,34 @@ function size(){const any=document.querySelector('canvas[data-toy]');const cw=an
   document.querySelectorAll('canvas[data-toy]').forEach(c=>{const n=c.dataset.toy,h=+c.dataset.h,w=c.clientWidth||LW,d=Math.min(window.devicePixelRatio||1,2);
    c.style.height=(w*h/LW)+'px';c.width=Math.round(w*d);c.height=Math.round(w*h/LW*d);cv[n]={c,g:c.getContext('2d'),s:w*d/LW}})}
 function redraw(n){const o=cv[n];if(!o)return;o.g.setTransform(1,0,0,1,0,0);o.g.clearRect(0,0,o.c.width,o.c.height);o.g.setTransform(o.s,0,0,o.s,0,0);o.g.lineCap='round';toys[n].draw(o.g)}
-for(const n in toys){toys[n].init();run[n]=!still;vis[n]=true}
+for(const n in toys){toys[n].init();run[n]=false;vis[n]=true}
+// One play = one natural pass of each toy, in steps at that toy's existing speed.
+const PLAY={1:3,2:11,31:7,32:6,33:8,34:7,35:64,4:70,5:25,6:14};
+const left={},auto={},tall={},big={},card={};
+(function(){const st=document.createElement('style');st.textContent='.sw-stage{position:relative}.ctl button[data-a=play]{display:inline-grid;justify-items:center;align-content:center}.ctl button[data-a=play]::after{content:"Pause";height:0;overflow:hidden;visibility:hidden}.sw-big{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;padding:0;border-radius:50%;border:3px solid #090c12;background:var(--lamp);color:var(--lamp-ink);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--lamp),0 8px 26px rgba(0,0,0,.6)}.sw-big[hidden]{display:none!important}.sw-big:hover{filter:brightness(1.08)}.sw-big:focus-visible{outline:3px solid #eef1f5;outline-offset:4px}.sw-big svg{width:42px;height:42px;margin-left:6px;fill:currentColor}@media(max-width:640px){.sw-big{width:76px;height:76px;margin:-38px 0 0 -38px}.sw-big svg{width:34px;height:34px;margin-left:5px}}';document.head.appendChild(st);
+ document.querySelectorAll('canvas[data-toy]').forEach(c=>{const n=c.dataset.toy,w=document.createElement('div');w.className='sw-stage';c.parentNode.insertBefore(w,c);w.appendChild(c);
+  const b=document.createElement('button');b.type='button';b.className='sw-big';b.hidden=true;b.setAttribute('aria-label','Play: '+c.getAttribute('aria-label'));b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l16 9-16 9z"/></svg>';
+  b.addEventListener('click',()=>{start(n);const k=document.querySelector(`button[data-t="${n}"][data-a=play]`);if(k)k.focus({preventScroll:true})});w.appendChild(b);big[n]=b;card[n]=c.closest('.toy')})})();
+function sync(n){big[n].hidden=run[n]||!(auto[n]||still||tall[n])}
+function start(n){auto[n]=true;if(!(left[n]>0)){if(n==5)toys[5].build();else toys[n].init();left[n]=PLAY[n]}run[n]=true;last[n]=0;label(n);sync(n);redraw(n)}
+function stop(n){run[n]=false;label(n);sync(n)}
+// Auto-play fires only when the whole card is inside the visible viewport. A card that cannot fit waits for the big button.
+function watch(){if(still)return;const v=window.visualViewport,L=v?v.offsetLeft:0,T=v?v.offsetTop:0,W=v?v.width:window.innerWidth,H=v?v.height:window.innerHeight;
+ for(const n in toys){if(auto[n])continue;const r=card[n].getBoundingClientRect(),t=r.height>H+.5||r.width>W+.5;if(t!==!!tall[n]){tall[n]=t;sync(n)}
+  if(!t&&r.height>0&&r.top>=T-.5&&r.bottom<=T+H+.5&&r.left>=L-.5&&r.right<=L+W+.5)start(n)}}
 size();
 // warm start so every bench shows motion history on first view
 for(const n in toys)for(let i=0;i<(n==4?80:n==35?30:6);i++)toys[n].step();
 function label(n){const b=document.querySelector(`button[data-t="${n}"][data-a=play]`);if(b)b.textContent=run[n]?'Pause':'Play'}
 document.querySelectorAll('.ctl button').forEach(b=>b.addEventListener('click',()=>{const n=b.dataset.t,a=b.dataset.a;
- if(a=='play'){run[n]=!run[n];label(n)}if(a=='step')toys[n].step();if(a=='reset'){toys[n].init();if(n=='5'){}}redraw(n)}));
+ if(a=='play'){if(run[n])stop(n);else start(n)}if(a=='step')toys[n].step();if(a=='reset'){toys[n].init();if(n=='5'){}left[n]=run[n]?PLAY[n]:0}redraw(n)}));
 document.querySelectorAll('.ctl input[type=range]').forEach(s=>s.addEventListener('input',()=>redraw(s.id.slice(1))));
 document.querySelectorAll('canvas[data-toy]').forEach(c=>c.addEventListener('click',()=>{const n=c.dataset.toy;toys[n].step();redraw(n)}));
-for(const n in toys)label(n);
+for(const n in toys){label(n);sync(n)}
 if('IntersectionObserver'in window){const io=new IntersectionObserver(es=>es.forEach(e=>{vis[e.target.dataset.toy]=e.isIntersecting}),{rootMargin:'100px'});document.querySelectorAll('canvas[data-toy]').forEach(c=>io.observe(c))}
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{size();for(const n in toys)redraw(n)},120)});
-function loop(t){for(const n in toys){if(!vis[n])continue;if(run[n]&&(!last[n]||t-last[n]>speed[n])){toys[n].step();last[n]=t}redraw(n)}requestAnimationFrame(loop)}
+function loop(t){watch();for(const n in toys){if(!vis[n]&&!run[n])continue;if(run[n]&&(!last[n]||t-last[n]>speed[n])){if(left[n]>0){toys[n].step();left[n]--;last[n]=t}else stop(n)}if(vis[n])redraw(n)}requestAnimationFrame(loop)}
 for(const n in toys)redraw(n);
 requestAnimationFrame(loop);
-window.__sixways={toys,run,cv};
+window.__sixways={toys,run,cv,left,auto,tall};
 })();
