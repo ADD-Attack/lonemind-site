@@ -23,7 +23,7 @@ export function render(p, el, ctx) {
     const list = h('div', { class: 'blist' }, ...rows.slice(0, S.limit).map((l) => h('div', { class: 'brow' + (l.needs_owner ? ' owner' : '') }, h('span', { class: 'meta' }, `${when(l.ts)} · ${l.seat} · ${l.state}${l.needs_owner ? ' · needs partner' : ''}`), h('div', {}, l.item), h('div', { class: 'muted' }, l.note))));
     root.replaceChildren(h('div', { class: 'uh-ctl' }, sel('Seat', 'seat', 'All seats', seatNames, (n) => `${n} (${p.seats[n]})`), sel('Mention', 'mention', 'Anyone', mentNames, (n) => `@${n} (${p.mentions[n]})`),
       h('label', { class: 'toggle' }, cb, ' Needs partner only')),
-      h('p', { class: 'meta' }, `${rows.length} line${rows.length === 1 ? '' : 's'} matching${total != null ? ` of ${total} matching on the full board (${p.count} lines)` : ` (board has ${p.count} lines)`}. ${full ? 'Full board loaded; newest ${Math.min(S.limit, rows.length)} drawn.' : err ? `Full board did not load (${err}); showing the newest ${p.lines.length}.` : 'Loading the full board…'}`), list, ...(more ? [more] : []));
+      h('p', { class: 'meta' }, `${rows.length} line${rows.length === 1 ? '' : 's'} matching${total != null ? ` of ${total} matching on the full board (${p.count} lines)` : ` (board has ${p.count} lines)`}. ${full ? `Full board loaded; newest ${Math.min(S.limit, rows.length)} drawn.` : err ? `Full board did not load (${err}); showing the newest ${p.lines.length}.` : 'Loading the full board…'}`), list, ...(more ? [more] : []));
   };
   draw();
   if (ctx && ctx.sb && (p.chunks || []).length) {
