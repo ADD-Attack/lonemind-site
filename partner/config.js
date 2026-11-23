@@ -12,7 +12,7 @@ window.PARTNER_CONFIG = {
   // (and optionally its file in panels/). Nothing else needs to change.
   tabs: [
     { id: 'overview', title: 'Overview', panels: ['partner_items', 'open_orders', 'fleet_health', 'latest_board', 'usage'] },
-    { id: 'tokens', title: 'Tokens', panels: ['usage_hours', 'tokens'] },
+    { id: 'tokens', title: 'Tokens', panels: ['usage_hours', 'usage_summary', 'tokens'] },
     { id: 'hosts', title: 'Hosts', panels: ['hosts'] },
     { id: 'work', title: 'Work', panels: ['work', 'queue'] },
     { id: 'lanes', title: 'Lanes', panels: ['lanes'] },
@@ -26,7 +26,7 @@ window.PARTNER_CONFIG = {
   // This is NOT the camera's address; the camera's address and any stream credential live only on the relay host.
   camera: { relayUrl: 'https://abraham.tail629694.ts.net:10000', verified: false }, // flip verified to true only after the own-firmware camera is confirmed live
   // Panels stored inside another row's _ext (the table's CHECK admits five names only).
-  packed: { usage_hours: 'usage', tokens: 'usage', hosts: 'usage', work: 'partner_items', lanes: 'partner_items', queue: 'partner_items',
+  packed: { usage_hours: 'usage', usage_summary: 'usage', tokens: 'usage', hosts: 'usage', work: 'partner_items', lanes: 'partner_items', queue: 'partner_items',
             board: 'latest_board', pulse: 'latest_board', memory: 'open_orders', socials: 'open_orders' },
   panels: [
     'partner_items',   // items awaiting your verdict
