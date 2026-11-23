@@ -15,7 +15,7 @@ export function render(p, el) {
       kids.push(h('p', { class: 'sub' }, host));
       for (const m of ['cpu', 'ram', 'gpu']) {
         const row = h('div', { class: 'hh' }, h('span', { class: 'meter-l' }, m.toUpperCase()));
-        hrs.forEach((x) => { const c = h('span', { class: 'hhc', title: `${String(x.hour).padStart(2, '0')}:00 avg ${x[m].avg}% peak ${x[m].peak}%${x.missed ? ` (${x.missed} missed)` : ''}` }); const f = h('i'); f.style.height = `${x[m].avg}%`; c.append(f); row.append(c); });
+        hrs.forEach((x) => { const c = h('span', { class: 'hhc', title: `${String(x.hour).padStart(2, '0')}:00 avg ${x[m] ? x[m].avg : 'n/a'}% peak ${x[m] ? x[m].peak : 'n/a'}%${x.missed ? ` (${x.missed} missed)` : ''}` }); const v = x[m] || { avg: 0, peak: 0 }; const f = h('i'); f.style.height = `${v.avg ?? 0}%`; c.append(f); row.append(c); });
         kids.push(row);
       }
     }
