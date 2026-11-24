@@ -145,7 +145,7 @@ const left={},auto={},tall={},big={},card={};
   b.addEventListener('click',()=>{start(n);const k=document.querySelector(`button[data-t="${n}"][data-a=play]`);if(k)k.focus({preventScroll:true})});w.appendChild(b);big[n]=b;card[n]=c.closest('.toy')})})();
 function sync(n){big[n].hidden=run[n]||!(auto[n]||still||tall[n])}
 function start(n){auto[n]=true;if(n==5)toys[5].build();else toys[n].init();left[n]=PLAY[n];run[n]=true;last[n]=0;label(n);sync(n);redraw(n)}
-function resume(n){auto[n]=true;left[n]=Infinity;run[n]=true;last[n]=0;label(n);sync(n)}
+function resume(n){auto[n]=true;left[n]=Infinity;run[n]=true;label(n);sync(n)}
 function stop(n){run[n]=false;label(n);sync(n)}
 // Auto-play fires only when the whole card is inside the visible viewport. A card that cannot fit waits for the big button.
 function watch(){if(still)return;const v=window.visualViewport,L=v?v.offsetLeft:0,T=v?v.offsetTop:0,W=v?v.width:window.innerWidth,H=v?v.height:window.innerHeight;
@@ -162,7 +162,7 @@ document.querySelectorAll('canvas[data-toy]').forEach(c=>c.addEventListener('cli
 for(const n in toys){label(n);sync(n)}
 if('IntersectionObserver'in window){const io=new IntersectionObserver(es=>es.forEach(e=>{vis[e.target.dataset.toy]=e.isIntersecting}),{rootMargin:'100px'});document.querySelectorAll('canvas[data-toy]').forEach(c=>io.observe(c))}
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{size();for(const n in toys)redraw(n)},120)});
-function loop(t){watch();for(const n in toys){if(!vis[n]&&!run[n])continue;if(run[n]&&(!last[n]||t-last[n]>speed[n])){if(left[n]>0){toys[n].step();left[n]--;last[n]=t}else stop(n)}if(vis[n])redraw(n)}requestAnimationFrame(loop)}
+function loop(t){watch();for(const n in toys){if(!vis[n]&&!(run[n]&&left[n]!==Infinity))continue;if(run[n]&&(!last[n]||t-last[n]>speed[n])){if(left[n]>0){toys[n].step();left[n]--;last[n]=t}else stop(n)}if(vis[n])redraw(n)}requestAnimationFrame(loop)}
 for(const n in toys)redraw(n);
 requestAnimationFrame(loop);
 window.__sixways={toys,run,cv,left,auto,tall};
