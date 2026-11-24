@@ -113,9 +113,12 @@ export function mount(body, { sb, cfg }) {
           canvas.width = bmp.width; canvas.height = bmp.height; canvas.getContext('2d').drawImage(bmp, 0, 0); bmp.close();
           const ts = +p.hdr['x-ts'], lat = Math.max(0, Date.now() + skew - ts);
           lastFrame = Date.now(); shown = ts; fpsN++;
-          if (state !== 'live') setState('live', '');
+          // a held frame sent while the relay is stalled carries X-State: stalled; never show LIVE for it
+          const fst = p.hdr['x-state'] || 'live';
+          if (fst !== 'live') { const age = +p.hdr['x-age-ms'] || 0; if (state !== 'stalled') setState('stalled', `No new picture for ${Math.round(age / 1000)} s. The last frame is shown; waiting for the camera…`, { stat: '' }); }
+          else if (state !== 'live') setState('live', '');
           const now = performance.now(); if (now - fpsT >= 1000) { fps = fpsN * 1000 / (now - fpsT); fpsN = 0; fpsT = now; }
-          stat.textContent = `latency ${Math.round(lat)} ms · ${fps.toFixed(1)} fps`;
+          if (state === 'live') stat.textContent = `latency ${Math.round(lat)} ms · ${fps.toFixed(1)} fps`;
           stage.dataset.lat = String(Math.round(lat));
         } else {
           const j = JSON.parse(dec.decode(p.body));
