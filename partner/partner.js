@@ -105,6 +105,17 @@ $('login-form').addEventListener('submit', async (ev) => {
 
 $('logout-btn').addEventListener('click', () => sb.auth.signOut());
 $('refresh-btn').addEventListener('click', () => loadPanels());
+// Family calendar: opens behind the same partner sign-in. The access token rides in the URL fragment
+// (never sent to a server or logged); the calendar's gate checks it with Supabase (rpc/is_partner) and
+// swaps it for its own short-lived cookie. Without a valid partner session the calendar shows nothing.
+if (cfg.calendar && cfg.calendar.url) $('cal-btn').hidden = false;
+$('cal-btn').addEventListener('click', async () => {
+  const w = window.open('', '_blank');          // opened inside the click so pop-up blockers allow it
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { if (w) w.close(); showLogin(); return; }
+  const url = cfg.calendar.url.replace(/\/$/, '') + '/auth#t=' + encodeURIComponent(session.access_token);
+  if (w) { w.opener = null; w.location.replace(url); } else location.assign(url);
+});
 
 // Password setup: one-time link  /partner/?token_hash=...&type=recovery  (minted fleet-side on request).
 // The partner types his own password here; it goes straight to Supabase Auth and is never seen elsewhere.
