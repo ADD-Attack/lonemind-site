@@ -25,6 +25,8 @@ window.PARTNER_CONFIG = {
   // Camera relay: the web address of the partner-only video relay. It refuses everything without the partner's sign-in token.
   // This is NOT the camera's address; the camera's address and any stream credential live only on the relay host.
   camera: { relayUrl: 'https://abraham.tail629694.ts.net:10000', verified: false }, // flip verified to true only after the own-firmware camera is confirmed live
+  // Family calendar (partner-only): the gate refuses everything without the partner's sign-in.
+  calendar: { url: 'https://abraham.tail629694.ts.net:8443/fcal' },
   // Every panel has its own row (the table CHECK now admits any panel name). Nothing is packed any more.
   packed: {},
   panels: [
