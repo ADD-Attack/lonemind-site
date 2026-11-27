@@ -1,0 +1,46 @@
+/* LoneMind main page, colour direction A "Daylight" (ticket 20261127-spider-lonemind-home-daylight).
+   Loaded by index.html only, after css/site.css; css/site.css and every other page are unchanged.
+   Values from palettes/a-daylight.css (ticket 20261127-spider-lonemind-palettes), the partner's SaaS sheet:
+   ground #F0F2F5, cards #FFFFFF, ink #2C3E50, accent #1274D7 (fills) / #0D5DAF (as text), borders #95A5A6,
+   ok #1B7A43, bad #B3261E. The sheet's two orange swatches are left out on purpose. */
+:root{
+  color-scheme:light;
+  --ink:#f0f2f5; --ink-2:#ffffff; --panel:rgba(255,255,255,.97); --line:rgba(44,62,80,.2);
+  --text:#2c3e50; --muted:#4a5968; --dim:#4a5968;
+  --lamp:#0d5daf; --lamp-ink:#ffffff; --ok:#1b7a43; --bad:#b3261e;
+  --fill:#1274d7; --fill-hi:#0d5daf; --ink-2t:#3e4f60;
+}
+a:hover{color:#0a4a8c}
+.bg-fallback{background:radial-gradient(60vmax 60vmax at 70% 30%,rgba(42,210,254,.16),transparent 60%),
+  radial-gradient(40vmax 40vmax at 20% 80%,rgba(18,116,215,.08),transparent 60%),var(--ink)}
+.veil{background:linear-gradient(90deg,rgba(240,242,245,.9) 0%,rgba(240,242,245,.72) 55%,rgba(240,242,245,.3) 100%)}
+.nav a:hover{background:rgba(18,116,215,.06)}
+.nav a[aria-current=page]{background:rgba(18,116,215,.1)}
+.eyebrow::before{background:var(--fill);box-shadow:0 0 12px rgba(42,210,254,.9)}
+.lede{color:var(--ink-2t)}
+.sec{border-top-color:rgba(44,62,80,.1)}
+.card p,.status,ul.ticks li,ol.steps li,.faq details p,.log{color:var(--ink-2t)}
+.card,.demo,.status{box-shadow:0 1px 2px rgba(44,62,80,.06)}
+.btn{background:#ffffff;border-color:rgba(44,62,80,.28)}
+.btn:hover{border-color:#95a5a6}
+.btn.primary{background:var(--fill);color:#ffffff;border-color:var(--fill)}
+.btn.primary:hover{background:var(--fill-hi);color:#ffffff;border-color:var(--fill-hi)}
+.status{background:rgba(255,255,255,.92)}
+.tag{border-color:rgba(18,116,215,.5)}
+ul.ticks li::before{background:var(--fill)}
+ol.steps li::before{background:var(--fill)}
+.board{border-color:#95a5a6;background:#ffffff}
+.board input{border-right-color:#d5d8dc;border-bottom-color:#d5d8dc;caret-color:var(--fill)}
+.board input:nth-child(4n+2){border-right-color:#95a5a6}
+.board input:nth-child(n+5):nth-child(-n+8){border-bottom-color:#95a5a6}
+.board input:nth-child(4n){border-right:0}
+.board input:nth-child(n+13){border-bottom:0}
+.board input.given{background:#e6eaef}
+.board input.clash{background:rgba(179,38,30,.08)}
+.board input:focus{background:rgba(180,237,255,.6)}
+.log li.ok{color:#14552f}.log li.no{color:#8c1d17}
+.foot{border-top-color:rgba(44,62,80,.12);background:rgba(255,255,255,.92)}
+.skip{background:var(--fill);color:#ffffff}
+@media (max-width:900px){
+  .veil{background:linear-gradient(180deg,rgba(240,242,245,.6) 0%,rgba(240,242,245,.86) 60%)}
+}
